@@ -79,35 +79,43 @@ module Tay
 
     ##
     # An array of Tay::Specification::NaClModule
-    attr_reader :nacl_modules
+    attr_accessor :nacl_modules
 
     ##
     # An array of Tay::Specification::ContentScript objects
-    attr_reader :content_scripts
-
-    ##
-    # An array of paths of script files that will run in the background
-    attr_reader :background_scripts
+    attr_accessor :content_scripts
 
     ##
     # An array of Tay::Specification::WebIntent objects
-    attr_reader :web_intents
+    attr_accessor :web_intents
+
+    ##
+    # An array of paths of script files that will run in the background
+    #
+    # http://code.google.com/chrome/extensions/background_pages.html
+    attr_accessor :background_scripts
+
+    ##
+    # An array of paths considered "web accessible"
+    #
+    # http://code.google.com/chrome/extensions/manifest.html#web_accessible_resources
+    attr_accessor :web_accessible_resources
+
+    ##
+    # An array of permissions the extension requires
+    #
+    # http://code.google.com/chrome/extensions/manifest.html#permissions
+    attr_accessor :permissions
+
+    ##
+    # An map of icon sizes to paths
+    #
+    # http://code.google.com/chrome/extensions/manifest.html#icons
+    attr_accessor :icons
 
     ##
     # A map of Chrome page types to HTML files
     attr_reader :overriden_pages
-
-    ##
-    # An array of paths considered "web accessible"
-    attr_reader :web_accessible_resources
-
-    ##
-    # An array of permissions the extension reqires
-    attr_reader :permissions
-
-    ##
-    # An map of icon sizes to paths
-    attr_reader :icons
 
     def initialize(&block)
       @nacl_modules = []
@@ -122,6 +130,8 @@ module Tay
       yield self
     end
 
+    ##
+    # Provide the path of the icon to be used at a certain size
     def add_icon(size, path)
       @icons[size.to_i] = path
     end
@@ -190,28 +200,6 @@ module Tay
       nacl_module = NaClModule.new
       yield nacl_module
       @nacl_modules << nacl_module
-    end
-
-    ##
-    # Add a path to the list of scripts that run in the background
-    def add_background_script(path)
-      @background_scripts << path
-    end
-
-    ##
-    # Add a permission to the list of requirements for this extension
-    #
-    # http://code.google.com/chrome/extensions/manifest.html#permissions
-    def add_permission(permission)
-      @permissions << permission
-    end
-
-    ##
-    # Mark a path as "web accessible"
-    #
-    # http://code.google.com/chrome/extensions/manifest.html#web_accessible_resources
-    def add_web_accessible_resource(path)
-      @web_accessible_resources << path
     end
 
     ##

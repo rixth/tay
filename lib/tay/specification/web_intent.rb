@@ -29,17 +29,11 @@ module Tay
       attr_accessor :disposition
 
       ##
-      # An array of mime types that can be handled
-      attr_reader :types
+      # An array of mime types that your intent can act upon
+      attr_accessor :types
 
       def initialize
         @types = []
-      end
-
-      ##
-      # Add a mime type that your intent can act upon
-      def add_type(type)
-        @types << type
       end
     end
   end

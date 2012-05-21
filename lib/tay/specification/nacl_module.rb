@@ -9,6 +9,7 @@ module Tay
       ##
       # Path to the .nmf file for your module
       attr_accessor :path
+
       ##
       # The mime-type that will load your module
       attr_accessor :mime_type

@@ -16,49 +16,25 @@ module Tay
 
       ##
       # An array of patterns to include this content script on
-      attr_reader :include_patterns
+      attr_accessor :include_patterns
 
       ##
       # An array of patterns to exclude this content script on
-      attr_reader :exclude_patterns
+      attr_accessor :exclude_patterns
 
       ##
       # An array of stylesheet paths to inject
-      attr_reader :stylesheets
+      attr_accessor :stylesheets
 
       ##
       # An array of script paths to inject
-      attr_reader :scripts
+      attr_accessor :scripts
 
       def initialize
         @include_patterns = []
         @exclude_patterns = []
         @scripts = []
         @stylesheets = []
-      end
-
-      ##
-      # Add a URL pattern on which this content script will run
-      def add_include_pattern(pattern)
-        @include_patterns << pattern
-      end
-
-      ##
-      # Add a URL pattern on which this content script will not run
-      def add_exclude_pattern(pattern)
-        @exclude_patterns << pattern
-      end
-
-      ##
-      # Add a path to the list of scripts that will be injected
-      def add_script(path)
-        @scripts << path
-      end
-
-      ##
-      # Add a path to the list of stylesheets that will be injected
-      def add_stylesheet(path)
-        @stylesheets << path
       end
     end
   end
