@@ -17,7 +17,7 @@ module Tay
     ##
     # Check for missing required fields and common property collisons
     def validate
-      def fail(msg)
+      fail = lambda do |msg|
         raise Tay::Specification::InvalidSpecification.new(msg)
       end
 
