@@ -54,7 +54,7 @@ module Tay
       if spec.background_page
         json[:background] = { :page => spec.background_page }
       end
-      unless spec.background_scripts
+      unless spec.background_scripts.empty?
         json[:background] = { :scripts => spec.background_scripts }
       end
       json[:chrome_url_overrides] = spec.overriden_pages unless spec.overriden_pages.empty?
