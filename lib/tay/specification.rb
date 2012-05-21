@@ -221,5 +221,7 @@ module Tay
     def override_page(page_type, path)
       @overriden_pages[page_type] = path
     end
+
+    class InvalidSpecification < Exception; end
   end
 end
