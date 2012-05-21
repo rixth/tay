@@ -67,7 +67,7 @@ module Tay
       json
     end
 
-    private
+    protected
 
     ##
     # Work out which manifest version needed based on the features that have

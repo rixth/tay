@@ -36,7 +36,7 @@ module Tay
       write_manifest
     end
 
-    private
+    protected
 
     ##
     # Create the output directory if it does not exist
