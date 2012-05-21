@@ -117,6 +117,10 @@ module Tay
     def create_sprockets_environment
       @sprockets = Sprockets::Environment.new
       @sprockets.append_path(@base_dir + '/')
+      @sprockets.register_preprocessor 'application/javascript', Sprockets::CommonJS
+      # Please avert your eyes... gross hack due to sprockets 0.0.3 not working
+      # out of the box without rails.
+      @sprockets.append_path(File.dirname(Sprockets::CommonJS.method(:default_namespace).source_location[0]) + '/..')
     end
 
     ##
