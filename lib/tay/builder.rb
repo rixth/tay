@@ -86,16 +86,18 @@ module Tay
       files = Dir[@base_dir + "/src/#{directory}/**/*"].map
       files.each do |path|
         file_out_dir = File.dirname(src_path_to_out_path(path))
+        filename = File.basename(path)
 
         if @sprockets.extensions.include?(File.extname(path))
           logical_path = path.sub(/\A#{@base_dir}\//, '')
           content = @sprockets[logical_path].to_s
+          filename.sub!(/\.(coffee|scss|less)\Z/, '')
         else
           content = File.read(path)
         end
 
         FileUtils.mkdir_p(file_out_dir)
-        File.open(file_out_dir + '/' + File.basename(path), 'w') do |f|
+        File.open(file_out_dir + '/' + filename, 'w') do |f|
           f.write content
         end
       end
