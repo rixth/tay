@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'json'
+require 'tilt'
 
 module Tay
   ##
@@ -39,17 +40,38 @@ module Tay
     protected
 
     ##
+    # Given a path, run it through tilt and return the compiled version.
+    # If there's no known engine for it, just return the content verbatim.
+    # If we know the type buy are missing the gem, raise an exception.
+    def get_compiled_file_content(path)
+      begin
+        [File.basename(path).sub(/\.[a-z]+\Z/, ''), Tilt.new(path).render]
+      rescue LoadError
+        file = $!.message.scan(/cannot load such file -- (.*)/)
+        raise GemNotInstalled.new("Could not load the gem to compile #{file}, is it installed?")
+      rescue RuntimeError
+        [File.basename(path), File.read(path)]
+      end
+    end
+
+    ##
     # Create the output directory if it does not exist
     def create_output_directory
       FileUtils.mkdir_p @output_dir
     end
 
     ##
-    # Blindly copy the src/html directory to the output
+    # Compile all files in src/html to the output
     def compile_html_files
-      html_directory = @base_dir + '/src/html'
-      if Dir.exist?(html_directory)
-        FileUtils.cp_r(html_directory, @output_dir)
+      files = Dir[@base_dir + '/src/html/**/*'].map
+      files.each do |path|
+        file_out_dir = File.dirname(src_path_to_out_path(path))
+        filename, content = get_compiled_file_content(path)
+
+        FileUtils.mkdir_p(file_out_dir)
+        File.open(file_out_dir + '/' + filename, 'w') do |f|
+          f.write content
+        end
       end
     end
 
@@ -95,5 +117,14 @@ module Tay
     def dbg(msg)
       puts dbg if debug
     end
+
+    ##
+    # Helper function that converts a base_dir/src/XYZ path to the equivalent
+    # path in the output directory
+    def src_path_to_out_path(path)
+      @output_dir + path.sub(/\A#{@base_dir}\/src/, '')
+    end
+
+    class GemNotInstalled < RuntimeError; end
   end
 end
