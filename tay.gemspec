@@ -15,6 +15,9 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Tay::VERSION
 
+  gem.add_dependency 'tilt'
+  gem.add_dependency 'sprockets'
+
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'sdoc'
   gem.add_development_dependency 'rake'
