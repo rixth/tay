@@ -9,7 +9,7 @@ module Tay
       ##
       # When your app is launched, this is the path to the HTML file that will
       # be loaded
-      attr_accessor :launch_page
+      attr_accessor :page
 
       attr_reader :container
       attr_reader :width, :height
