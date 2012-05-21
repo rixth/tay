@@ -65,6 +65,10 @@ module Tay
     attr_accessor :requires_hardware_3d
 
     ##
+    # http://code.google.com/chrome/extensions/autoupdate.html
+    attr_accessor :update_url
+
+    ##
     # If you set this to a hash, it will be merged on top of the generated
     # manifest. This is useful to force override of specific values
     attr_accessor :manifest_data
