@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'json'
 require 'tilt'
+require 'sprockets'
 
 module Tay
   ##
@@ -23,6 +24,7 @@ module Tay
       @spec = specification
       @base_dir = base_dir
       @output_dir = output_dir || (base_dir + "/build")
+      create_sprockets_environment
     end
 
     ##
@@ -30,10 +32,10 @@ module Tay
     # in this class.
     def build!
       create_output_directory
-      copy_static_assets
-      compile_html_files
-      compile_style_files
-      compile_script_files
+      simple_compile_directory('html')
+      simple_compile_directory('assets')
+      sprockets_compile_directory('scripts')
+      sprockets_compile_directory('styles')
       write_manifest
     end
 
@@ -61,9 +63,10 @@ module Tay
     end
 
     ##
-    # Compile all files in src/html to the output
-    def compile_html_files
-      files = Dir[@base_dir + '/src/html/**/*'].map
+    # Copy all the files from a directory to the output, compiling
+    # them if they are familiar to us. Does not do any sprocketing.
+    def simple_compile_directory(directory)
+      files = Dir[@base_dir + "/src/#{directory}/**/*"].map
       files.each do |path|
         file_out_dir = File.dirname(src_path_to_out_path(path))
         filename, content = get_compiled_file_content(path)
@@ -76,29 +79,24 @@ module Tay
     end
 
     ##
-    # Blindly copy the src/styles directory to the output
-    def compile_style_files
-      style_directory = @base_dir + '/src/styles'
-      if Dir.exist?(style_directory)
-        FileUtils.cp_r(style_directory, @output_dir)
-      end
-    end
+    # Process all the files in the directory through sprockets before writing
+    # them to the output directory
+    def sprockets_compile_directory(directory)
+      files = Dir[@base_dir + "/src/#{directory}/**/*"].map
+      files.each do |path|
+        file_out_dir = File.dirname(src_path_to_out_path(path))
 
-    ##
-    # Blindly copy the src/scripts directory to the output
-    def compile_script_files
-      script_directory = @base_dir + '/src/scripts'
-      if Dir.exist?(script_directory)
-        FileUtils.cp_r(script_directory, @output_dir)
-      end
-    end
+        if @sprockets.extensions.include?(File.extname(path))
+          logical_path = path.sub(/\A#{@base_dir}\//, '')
+          content = @sprockets[logical_path].to_s
+        else
+          content = File.read(path)
+        end
 
-    ##
-    # Copy src/assets to the output verbatim
-    def copy_static_assets
-      asset_directory = @base_dir + '/src/assets'
-      if Dir.exist?(asset_directory)
-        FileUtils.cp_r(asset_directory, @output_dir)
+        FileUtils.mkdir_p(file_out_dir)
+        File.open(file_out_dir + '/' + File.basename(path), 'w') do |f|
+          f.write content
+        end
       end
     end
 
@@ -110,6 +108,13 @@ module Tay
       File.open(@output_dir + '/manifest.json', 'w') do |f|
         f.write JSON.pretty_generate(generator.spec_as_json)
       end
+    end
+
+    ##
+    # Set up the sprockets environment for munging all the things
+    def create_sprockets_environment
+      @sprockets = Sprockets::Environment.new
+      @sprockets.append_path(@base_dir + '/')
     end
 
     ##
