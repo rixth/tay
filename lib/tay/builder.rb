@@ -48,12 +48,12 @@ module Tay
     # If we know the type buy are missing the gem, raise an exception.
     def get_compiled_file_content(path)
       begin
-        [File.basename(path).sub(/\.[a-z]+\Z/, ''), Tilt.new(path).render]
+        Tilt.new(path).render
       rescue LoadError
         file = $!.message.scan(/cannot load such file -- (.*)/)
         raise GemNotInstalled.new("Could not load the gem to compile #{file}, is it installed?")
       rescue RuntimeError
-        [File.basename(path), File.read(path)]
+        File.read(path)
       end
     end
 
@@ -69,11 +69,11 @@ module Tay
     def simple_compile_directory(directory)
       files = Dir[@base_dir + "/src/#{directory}/**/*"].map
       files.each do |path|
-        file_out_dir = File.dirname(src_path_to_out_path(path))
-        filename, content = get_compiled_file_content(path)
+        file_out_path = src_path_to_out_path(path)
+        content = get_compiled_file_content(path)
 
-        FileUtils.mkdir_p(file_out_dir)
-        File.open(file_out_dir + '/' + filename, 'w') do |f|
+        FileUtils.mkdir_p(File.dirname(file_out_path))
+        File.open(asset_output_filename(file_out_path), 'w') do |f|
           f.write content
         end
       end
@@ -85,19 +85,18 @@ module Tay
     def sprockets_compile_directory(directory)
       files = Dir[@base_dir + "/src/#{directory}/**/*"].map
       files.each do |path|
-        file_out_dir = File.dirname(src_path_to_out_path(path))
-        filename = File.basename(path)
+        file_out_path = src_path_to_out_path(path)
 
         if @sprockets.extensions.include?(File.extname(path))
           logical_path = path.sub(/\A#{@base_dir}\//, '')
           content = @sprockets[logical_path].to_s
-          filename.sub!(/\.(coffee|scss|less)\Z/, '')
+          filename = asset_output_filename(file_out_path)
         else
           content = File.read(path)
         end
 
-        FileUtils.mkdir_p(file_out_dir)
-        File.open(file_out_dir + '/' + filename, 'w') do |f|
+        FileUtils.mkdir_p(File.dirname(file_out_path))
+        File.open(asset_output_filename(file_out_path), 'w') do |f|
           f.write content
         end
       end
@@ -131,6 +130,26 @@ module Tay
     # path in the output directory
     def src_path_to_out_path(path)
       @output_dir + path.sub(/\A#{@base_dir}\/src/, '')
+    end
+
+    ##
+    # Helper function to convert the filenames of assets requiring pre-
+    # processing to their compiled extension. However, if the file only
+    # has one extension, it will be left alone regardless. Examples:
+    #
+    # * "foobar.module.js.coffee" => "foobar.module.js"
+    # * "index.html.haml" => "index.html"
+    # * "style.scss" => "style.scss"
+    def asset_output_filename(filename)
+      return filename if filename.split('.').length == 2
+
+      extension = File.extname(filename)
+
+      if @sprockets.engines.keys.include?(extension)
+        asset_output_filename(filename.sub(/#{extension}\Z/, ''))
+      else
+        filename
+      end
     end
 
     class GemNotInstalled < RuntimeError; end
