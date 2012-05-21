@@ -30,6 +30,10 @@ module Tay
         fail("You cannot use packaged apps and page actions") if spec.page_action
         fail("You cannot use packaged apps and browser actions") if spec.browser_action
       end
+
+      if spec.background_page && spec.background_scripts.length > 0
+        fail("You cannot use both background pages and background scripts")
+      end
     end
 
     ##
@@ -47,7 +51,12 @@ module Tay
       json[:browser_action] = action_as_json(spec.browser_action) if spec.browser_action
       json[:page_action] = action_as_json(spec.page_action) if spec.page_action
       json[:app] = packaged_app_as_json if spec.packaged_app
-      json[:background] = spec.background_page if spec.background_page
+      if spec.background_page
+        json[:background] = { :page => spec.background_page }
+      end
+      unless spec.background_scripts
+        json[:background] = { :scripts => spec.background_scripts }
+      end
       json[:chrome_url_overrides] = spec.overriden_pages unless spec.overriden_pages.empty?
       json[:content_scripts] = content_scripts_as_json unless spec.content_scripts.empty?
       json[:content_security_policy] = spec.content_security_policy if spec.content_security_policy
