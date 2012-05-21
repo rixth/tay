@@ -73,7 +73,7 @@ module Tay
         content = get_compiled_file_content(path)
 
         FileUtils.mkdir_p(File.dirname(file_out_path))
-        File.open(asset_output_filename(file_out_path), 'w') do |f|
+        File.open(asset_output_filename(file_out_path, Tilt.mappings.keys), 'w') do |f|
           f.write content
         end
       end
@@ -90,13 +90,13 @@ module Tay
         if @sprockets.extensions.include?(File.extname(path))
           logical_path = path.sub(/\A#{@base_dir}\//, '')
           content = @sprockets[logical_path].to_s
-          filename = asset_output_filename(file_out_path)
         else
           content = File.read(path)
         end
 
         FileUtils.mkdir_p(File.dirname(file_out_path))
-        File.open(asset_output_filename(file_out_path), 'w') do |f|
+        output_filename = asset_output_filename(file_out_path, @sprockets.engines.keys)
+        File.open(output_filename, 'w') do |f|
           f.write content
         end
       end
@@ -140,13 +140,14 @@ module Tay
     # * "foobar.module.js.coffee" => "foobar.module.js"
     # * "index.html.haml" => "index.html"
     # * "style.scss" => "style.scss"
-    def asset_output_filename(filename)
+    def asset_output_filename(filename, processed_extensions)
       return filename if filename.split('.').length == 2
 
       extension = File.extname(filename)
+      processed_extensions.map! { |ext| (ext[0] != '.' ? '.' : '') + ext }
 
-      if @sprockets.engines.keys.include?(extension)
-        asset_output_filename(filename.sub(/#{extension}\Z/, ''))
+      if processed_extensions.include?(extension)
+        asset_output_filename(filename.sub(/#{extension}\Z/, ''), processed_extensions)
       else
         filename
       end
