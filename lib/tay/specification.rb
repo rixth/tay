@@ -210,6 +210,5 @@ module Tay
       @overriden_pages[page_type] = path
     end
 
-    class InvalidSpecification < Exception; end
   end
 end

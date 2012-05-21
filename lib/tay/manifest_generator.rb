@@ -15,28 +15,6 @@ module Tay
     end
 
     ##
-    # Check for missing required fields and common property collisons
-    def validate
-      fail = lambda do |msg|
-        raise Tay::Specification::InvalidSpecification.new(msg)
-      end
-
-      fail("No name provided") unless spec.name
-      fail("No version provided") unless spec.version
-
-      fail("No icons provided") if spec.icons.keys.empty?
-
-      if spec.packaged_app
-        fail("You cannot use packaged apps and page actions") if spec.page_action
-        fail("You cannot use packaged apps and browser actions") if spec.browser_action
-      end
-
-      if spec.background_page && spec.background_scripts.length > 0
-        fail("You cannot use both background pages and background scripts")
-      end
-    end
-
-    ##
     # Return the JSON representation of the specification
     def spec_as_json
       json = {
