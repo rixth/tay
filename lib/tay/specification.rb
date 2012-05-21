@@ -61,8 +61,12 @@ module Tay
     attr_accessor :offline_enabled
 
     ##
-    # Set this to true to mark the extension as requiring hardware 3d support
-    attr_accessor :requires_hardware_3d
+    # Set this to true to mark the extension as requiring webgl support
+    attr_accessor :requires_webgl
+
+    ##
+    # Set this to true to mark the extension as requiring 3d css support
+    attr_accessor :requires_3d_css_transitions
 
     ##
     # http://code.google.com/chrome/extensions/autoupdate.html
