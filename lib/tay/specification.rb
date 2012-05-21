@@ -1,7 +1,7 @@
 require 'tay/specification/action'
 require 'tay/specification/page_action'
 require 'tay/specification/browser_action'
-require 'tay/specification/pakaged_app'
+require 'tay/specification/packaged_app'
 require 'tay/specification/content_script'
 require 'tay/specification/web_intent'
 require 'tay/specification/nacl_module'
