@@ -124,7 +124,7 @@ module Tay
       @sprockets.append_path(@base_dir + '/src/stylesheets')
 
       if defined?(Sprockets::CommonJS)
-        @sprockets.register_preprocessor 'application/javascript', Sprockets::CommonJS
+        @sprockets.register_postprocessor 'application/javascript', Sprockets::CommonJS
         # Please avert your eyes... gross hack due to sprockets 0.0.3 not working
         # out of the box without rails.
         @sprockets.append_path(File.dirname(Sprockets::CommonJS.method(:default_namespace).source_location[0]) + '/..')
