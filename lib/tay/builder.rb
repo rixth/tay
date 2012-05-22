@@ -49,9 +49,9 @@ module Tay
     def get_compiled_file_content(path)
       begin
         Tilt.new(path).render
-      rescue LoadError
-        file = $!.message.scan(/cannot load such file -- (.*)/)
-        raise GemNotInstalled.new("Could not load the gem to compile #{file}, is it installed?")
+      # rescue LoadError
+      #   file = $!.message.scan(/cannot load such file -- (.*)/)
+      #   raise GemNotInstalled.new("Could not load the gem to compile #{file}, is it installed?")
       rescue RuntimeError
         File.read(path)
       end
@@ -159,7 +159,5 @@ module Tay
         filename
       end
     end
-
-    class GemNotInstalled < RuntimeError; end
   end
 end
