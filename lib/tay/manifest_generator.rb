@@ -105,7 +105,7 @@ module Tay
         cs_json[:run_at] = cs.run_at if cs.run_at
         cs_json[:all_frames] = cs.all_frames unless cs.all_frames.nil?
         cs_json[:css] = cs.stylesheets unless cs.stylesheets.empty?
-        cs_json[:js] = cs.scripts unless cs.scripts.empty?
+        cs_json[:js] = cs.javascripts unless cs.javascripts.empty?
 
         cs_json
       end

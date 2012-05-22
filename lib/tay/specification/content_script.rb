@@ -28,12 +28,12 @@ module Tay
 
       ##
       # An array of script paths to inject
-      attr_accessor :scripts
+      attr_accessor :javascripts
 
       def initialize
         @include_patterns = []
         @exclude_patterns = []
-        @scripts = []
+        @javascripts = []
         @stylesheets = []
       end
     end

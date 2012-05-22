@@ -90,7 +90,7 @@ module Tay
     attr_accessor :web_intents
 
     ##
-    # An array of paths of script files that will run in the background
+    # An array javascript file paths that will run in the background
     #
     # http://code.google.com/chrome/extensions/background_pages.html
     attr_accessor :background_scripts

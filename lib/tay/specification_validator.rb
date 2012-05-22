@@ -66,8 +66,8 @@ module Tay
       end
 
       spec.content_scripts.each do |content_script|
-        content_script.scripts.each do |script_path|
-          fail_if_not_exist "Content script script", script_path
+        content_script.javascripts.each do |script_path|
+          fail_if_not_exist "Content script javascript", script_path
         end
         content_script.stylesheets.each do |style_path|
           fail_if_not_exist "Content script style", style_path

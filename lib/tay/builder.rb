@@ -35,8 +35,8 @@ module Tay
       create_output_directory
       simple_compile_directory('html')
       simple_compile_directory('assets')
-      sprockets_compile_directory('scripts')
-      sprockets_compile_directory('styles')
+      sprockets_compile_directory('javascripts')
+      sprockets_compile_directory('stylesheets')
       write_manifest
     end
 
