@@ -13,3 +13,9 @@ gem 'tay'
 # Allows you to use CommonJS requires in your script files
 # See https://github.com/maccman/sprockets-commonjs
 # gem 'sprockets-commonjs', '0.0.5.pre', :require => 'sprockets/commonjs'
+
+# Enable javascript compression via "tay minify"
+# gem 'uglifier'
+
+# Enable css compression via "tay minify"
+# gem 'yui-compressor'
