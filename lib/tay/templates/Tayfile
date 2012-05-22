@@ -1,0 +1,4 @@
+Tay::Specification.new do |ext|
+  ext.name = '<%= config[:name] %>'
+  ext.version = '0.0.1'
+end

@@ -8,6 +8,26 @@ module Tay
 
     include ::Thor::Actions
 
+    def self.source_root
+      File.expand_path('templates', File.dirname(__FILE__))
+    end
+
+    desc 'new NAME', 'Create a new extension in directory NAME'
+    method_option 'no-gitignore', :type => :boolean, :default => false,
+      :banner => "Don\t create a .gitignore file"
+    method_option 'no-gemfile', :type => :boolean, :default => false,
+      :banner => "Don\t create a Gemfile file"
+    def new(name)
+      outdir = name.gsub(/[^a-zA-Z0-9\-_ ]/, '').gsub(/ /, '_').downcase
+      create_directory_structure(outdir)
+
+      template('Gemfile', File.join(outdir, 'Gemfile')) unless options['no-gemfile']
+      copy_file('gitignore', File.join(outdir, '.gitignore')) unless options['no-gitignore']
+      template('Tayfile', File.join(outdir, 'Tayfile'), {
+        :name => name
+      })
+    end
+
     desc 'validate', 'Validate the current extension'
     method_option :tayfile, :type => :string,
       :banner => 'Use the specified tayfile instead of Tayfile'
@@ -57,6 +77,15 @@ module Tay
 
     def tayfile_path
       File.expand_path(options[:tayfile] || DEFAULT_TAYFILE)
+    end
+
+    def create_directory_structure(outdir)
+      empty_directory(outdir)
+      empty_directory(File.join(outdir, 'src'))
+      empty_directory(File.join(outdir, 'src/assets'))
+      empty_directory(File.join(outdir, 'src/html'))
+      empty_directory(File.join(outdir, 'src/javascripts'))
+      empty_directory(File.join(outdir, 'src/stylesheets'))
     end
   end
 end
