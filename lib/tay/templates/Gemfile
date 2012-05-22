@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'tay'
+
 # You can make extensions with no extra gems, but tay works best when
 # coupled with other langauges and tools. Uncomment them gems below
 # then run "bundle install"
