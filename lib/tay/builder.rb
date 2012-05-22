@@ -38,6 +38,7 @@ module Tay
       simple_compile_directory('html')
       simple_compile_directory('assets')
       compile_files(spec.javascripts, 'javascripts')
+      compile_files(spec.background_scripts, 'javascripts')
       compile_files(spec.stylesheets, 'stylesheets')
       write_manifest
     end
@@ -86,7 +87,7 @@ module Tay
     # them to the output directory
     def compile_files(files, directory)
       files.each do |path|
-        path = @base_dir + '/src/' + directory + '/' + path
+        path = @base_dir + '/src/' + path
         file_out_path = src_path_to_out_path(path)
 
         if @sprockets.extensions.include?(File.extname(path))
