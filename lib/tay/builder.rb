@@ -35,8 +35,8 @@ module Tay
       create_output_directory
       simple_compile_directory('html')
       simple_compile_directory('assets')
-      sprockets_compile_directory('javascripts')
-      sprockets_compile_directory('stylesheets')
+      compile_files(spec.javascripts, 'javascripts')
+      compile_files(spec.stylesheets, 'stylesheets')
       write_manifest
     end
 
@@ -82,9 +82,9 @@ module Tay
     ##
     # Process all the files in the directory through sprockets before writing
     # them to the output directory
-    def sprockets_compile_directory(directory)
-      files = Dir[@base_dir + "/src/#{directory}/**/*"].map
+    def compile_files(files, directory)
       files.each do |path|
+        path = @base_dir + '/src/' + directory + '/' + path
         file_out_path = src_path_to_out_path(path)
 
         if @sprockets.extensions.include?(File.extname(path))
@@ -117,6 +117,9 @@ module Tay
     def create_sprockets_environment
       @sprockets = Sprockets::Environment.new
       @sprockets.append_path(@base_dir + '/')
+      @sprockets.append_path(@base_dir + '/src')
+      @sprockets.append_path(@base_dir + '/src/javascripts')
+      @sprockets.append_path(@base_dir + '/src/stylesheets')
       @sprockets.register_preprocessor 'application/javascript', Sprockets::CommonJS
       # Please avert your eyes... gross hack due to sprockets 0.0.3 not working
       # out of the box without rails.

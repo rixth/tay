@@ -108,6 +108,14 @@ module Tay
     attr_accessor :permissions
 
     ##
+    # An array of javascript paths that will be copied to the build
+    attr_accessor :javascripts
+
+    ##
+    # An array of stylesheet paths that will be copied to the build
+    attr_accessor :stylesheets
+
+    ##
     # An map of icon sizes to paths
     #
     # http://code.google.com/chrome/extensions/manifest.html#icons
@@ -126,6 +134,8 @@ module Tay
       @content_scripts = []
       @web_intents = []
       @icons = {}
+      @stylesheets = []
+      @javascripts = []
 
       yield self
     end
