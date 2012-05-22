@@ -4,7 +4,7 @@ Tay::Specification.new do |ext|
 <% if config['browser-action'] %>
   ext.stylesheets << 'stylesheets/browser_action.css'
   ext.javascripts << 'javascripts/browser_action.js'
-  ext.browser_action do |ba|
+  ext.add_browser_action do |ba|
     ba.title = '<%= config['name'] %>'
     ba.popup = 'html/browser_action.html'
     # ba.icon = 'assets/browser_action_icon.png'
@@ -13,7 +13,7 @@ Tay::Specification.new do |ext|
 <% if config['page-action'] %>
   ext.permissions << 'tabs'
   ext.background_scripts << 'javascripts/page_action_controller.js'
-  ext.page_action do |pa|
+  ext.add_page_action do |pa|
     pa.title = '<%= config['name'] %>'
     pa.icon = 'assets/page_action_icon.png'
     # pa.popup = 'html/page_action.html'

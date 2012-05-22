@@ -125,6 +125,18 @@ module Tay
     # A map of Chrome page types to HTML files
     attr_reader :overriden_pages
 
+    ##
+    # A Tay::Specification::BrowserAction or nil
+    attr_reader :browser_action
+
+    ##
+    # A Tay::Specification::PageAction or nil
+    attr_reader :page_action
+
+    ##
+    # A Tay::Specification::PackagedApp or nil
+    attr_reader :packaged_app
+
     def initialize(&block)
       @nacl_modules = []
       @overriden_pages = {}
@@ -147,42 +159,30 @@ module Tay
     end
 
     ##
-    # If a block is given, a new Tay::Specification::BrowserAction will be
-    # created and passed to the block for set up. If no block is given, the
-    # current browser action (or nil) will be returned.
-    def browser_action
-      if block_given?
-        @browser_action = BrowserAction.new
-        yield @browser_action
-      else
-        @browser_action
-      end
+    # Create a new Tay::Specification::BrowserAction and pass it to the block
+    # for set up.
+    def add_browser_action(&block)
+      raise Tay::InvalidSpecification.new('Browser action already set up') if @browser_action
+      @browser_action = BrowserAction.new
+      yield @browser_action
     end
 
     ##
-    # If a block is given, a new Tay::Specification::PageAction will be
-    # created and passed to the block for set up. If no block is given, the
-    # current page action (or nil) will be returned.
-    def page_action
-      if block_given?
-        @page_action = PageAction.new
-        yield @page_action
-      else
-        @page_action
-      end
+    # Create a new Tay::Specification::BrowserAction and pass it to the block
+    # for set up.
+    def add_page_action(&block)
+      raise Tay::InvalidSpecification.new('Page action already set up') if @page_action
+      @page_action = PageAction.new
+      yield @page_action
     end
 
     ##
-    # If a block is given, a new Tay::Specification::PackagedApp will be
-    # created and passed to the block for set up. If no block is given, the
-    # current app (or nil) will be returned.
-    def packaged_app
-      if block_given?
-        @packaged_app = PackagedApp.new
-        yield @packaged_app
-      else
-        @packaged_app
-      end
+    # Create a new Tay::Specification::BrowserAction and pass it to the block
+    # for set up.
+    def add_packaged_app(&block)
+      raise Tay::InvalidSpecification.new('Packaged app already set up') if @packaged_app
+      @packaged_app = PackagedApp.new
+      yield @packaged_app
     end
 
     ##
