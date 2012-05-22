@@ -21,6 +21,8 @@ module Tay
       :banner => "Create a browser action"
     method_option 'page-action', :type => :boolean, :default => false,
       :banner => "Create a page action"
+    method_option 'content-script', :type => :boolean, :default => false,
+      :banner => "Create a content script"
     def new(name)
       outdir = name.gsub(/[^a-zA-Z0-9\-_ ]/, '').gsub(/ /, '_').downcase
       create_directory_structure(outdir)
@@ -33,6 +35,7 @@ module Tay
 
       directory('browser_action', File.join(outdir, 'src')) if options['browser-action']
       directory('page_action', File.join(outdir, 'src')) if options['page-action']
+      directory('content_script', File.join(outdir, 'src')) if options['content-script']
     end
 
     desc 'validate', 'Validate the current extension'

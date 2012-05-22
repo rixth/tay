@@ -1,0 +1,6 @@
+h1 {
+  color: red !important;
+}
+h1:after {
+  content: " - color changed by content_script.css";
+}
