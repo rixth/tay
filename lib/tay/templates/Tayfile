@@ -1,4 +1,22 @@
 Tay::Specification.new do |ext|
-  ext.name = '<%= config[:name] %>'
+  ext.name = '<%= config['name'] %>'
   ext.version = '0.0.1'
+<% if config['browser-action'] %>
+  ext.stylesheets << 'javascripts/browser_action.css'
+  ext.javascripts << 'javascripts/browser_action.js'
+  ext.browser_action do |ba|
+    ba.title = '<%= config['name'] %>'
+    ba.popup = 'html/browser_action.html'
+    # ba.icon = 'assets/browser_action_icon.png'
+  end
+<% end -%>
+<% if config['page-action'] %>
+  ext.permissions << 'tabs'
+  ext.background_scripts << 'javascripts/page_action_controller.js'
+  ext.page_action do |pa|
+    pa.title = '<%= config['name'] %>'
+    pa.icon = 'assets/page_action_icon.png'
+    # pa.popup = 'html/page_action.html'
+  end
+<% end -%>
 end

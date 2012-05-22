@@ -17,6 +17,10 @@ module Tay
       :banner => "Don\t create a .gitignore file"
     method_option 'no-gemfile', :type => :boolean, :default => false,
       :banner => "Don\t create a Gemfile file"
+    method_option 'browser-action', :type => :boolean, :default => false,
+      :banner => "Create a browser action"
+    method_option 'page-action', :type => :boolean, :default => false,
+      :banner => "Create a page action"
     def new(name)
       outdir = name.gsub(/[^a-zA-Z0-9\-_ ]/, '').gsub(/ /, '_').downcase
       create_directory_structure(outdir)
@@ -24,8 +28,11 @@ module Tay
       template('Gemfile', File.join(outdir, 'Gemfile')) unless options['no-gemfile']
       copy_file('gitignore', File.join(outdir, '.gitignore')) unless options['no-gitignore']
       template('Tayfile', File.join(outdir, 'Tayfile'), {
-        :name => name
-      })
+        'name' => name
+      }.merge(options))
+
+      directory('browser_action', File.join(outdir, 'src')) if options['browser-action']
+      directory('page_action', File.join(outdir, 'src')) if options['page-action']
     end
 
     desc 'validate', 'Validate the current extension'
