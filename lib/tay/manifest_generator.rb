@@ -67,11 +67,11 @@ module Tay
     ##
     # Return the manifest representation of a page or browser action
     def action_as_json(action)
-      {
-        :default_title => action.title,
-        :default_icon => action.icon,
-        :default_popup => action.popup
-      }
+      json = {}
+      json[:default_title] = action.title if action.title
+      json[:default_icon] = action.icon if action.icon
+      json[:default_popup] = action.popup if action.popup
+      json
     end
 
     ##
