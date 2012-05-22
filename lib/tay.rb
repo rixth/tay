@@ -5,5 +5,6 @@ require 'tay/manifest_generator'
 require 'tay/builder'
 
 module Tay
-  # Your code goes here...
+  class InvalidSpecification < Exception; end
+  class SpecificationNotFound < Exception; end
 end

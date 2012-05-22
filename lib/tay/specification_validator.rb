@@ -141,6 +141,4 @@ module Tay
     end
   end
 
-  class InvalidSpecification < Exception; end
-
 end
