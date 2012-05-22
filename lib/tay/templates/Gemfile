@@ -10,4 +10,4 @@ source 'https://rubygems.org'
 
 # Allows you to use CommonJS requires in your script files
 # See https://github.com/maccman/sprockets-commonjs
-# gem 'sprockets-commonjs'
+# gem 'sprockets-commonjs', '0.0.5.pre', :require => 'sprockets/commonjs'
