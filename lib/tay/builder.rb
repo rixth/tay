@@ -37,9 +37,8 @@ module Tay
       create_output_directory
       simple_compile_directory('html')
       simple_compile_directory('assets')
-      compile_files(spec.javascripts, 'javascripts')
-      compile_files(spec.background_scripts, 'javascripts')
-      compile_files(spec.stylesheets, 'stylesheets')
+      compile_files(spec.all_javascript_paths)
+      compile_files(spec.all_stylesheet_paths)
       write_manifest
     end
 
@@ -85,7 +84,7 @@ module Tay
     ##
     # Process all the files in the directory through sprockets before writing
     # them to the output directory
-    def compile_files(files, directory)
+    def compile_files(files)
       files.each do |path|
         path = @base_dir + '/src/' + path
         file_out_path = src_path_to_out_path(path)

@@ -220,5 +220,25 @@ module Tay
       @overriden_pages[page_type] = path
     end
 
+    ##
+    # Return all the javascript paths in the spec, included those nested
+    # inside other objects
+    def all_javascript_paths
+      all_paths = []
+      all_paths += @javascripts
+      all_paths += @background_scripts
+      all_paths += @content_scripts.map { |cs| cs.javascripts }.compact
+      all_paths.flatten.uniq
+    end
+
+    ##
+    # Return all the stylesheet paths in the spec, included those nested
+    # inside other objects
+    def all_stylesheet_paths
+      all_paths = []
+      all_paths += @stylesheets
+      all_paths += @content_scripts.map { |cs| cs.stylesheets }.compact
+      all_paths.flatten.uniq
+    end
   end
 end
