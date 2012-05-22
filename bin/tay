@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'tay'
+
+begin
+  require 'tay/cli'
+  Tay::CLI.start
+rescue Interrupt => e
+  puts "\nQuitting..."
+  exit 1
+rescue SystemExit => e
+  exit e.status
+end

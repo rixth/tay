@@ -15,6 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Tay::VERSION
 
+  gem.add_dependency 'thor'
   gem.add_dependency 'tilt'
   gem.add_dependency 'sprockets'
   gem.add_dependency 'sprockets-commonjs'
