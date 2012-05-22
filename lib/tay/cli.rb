@@ -25,7 +25,7 @@ module Tay
     method_option 'content-script', :type => :boolean, :default => false,
       :banner => "Create a content script"
     def new(name)
-      outdir = name.gsub(/[^a-zA-Z0-9\-_ ]/, '').gsub(/ /, '_').downcase
+      outdir = Utils.filesystem_name(name)
       create_directory_structure(outdir)
 
       template('Gemfile', File.join(outdir, 'Gemfile')) unless options['no-gemfile']
