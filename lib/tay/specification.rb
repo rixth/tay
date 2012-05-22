@@ -137,6 +137,11 @@ module Tay
     # A Tay::Specification::PackagedApp or nil
     attr_reader :packaged_app
 
+    ##
+    # The path to the private key used to package this extension. Will default
+    # to ./EXTNAME.pem
+    attr_accessor :key_path
+
     def initialize(&block)
       @nacl_modules = []
       @overriden_pages = {}
@@ -239,6 +244,12 @@ module Tay
       all_paths += @stylesheets
       all_paths += @content_scripts.map { |cs| cs.stylesheets }.compact
       all_paths.flatten.uniq
+    end
+
+    ##
+    # Get the path to the private key for this extension
+    def key_path
+      @key_path || Utils.filesystem_name(name) + '.pem'
     end
   end
 end

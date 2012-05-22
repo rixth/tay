@@ -1,0 +1,64 @@
+require 'crxmake'
+
+module Tay
+  ##
+  # Takes a Tay::Specification and builds it. It compiles the assets,
+  # writes the manifest, and copies everything to the output path.
+  class Packager
+    ##
+    # Pointer to the relevant Tay::Specification
+    attr_reader :spec
+
+    ##
+    # Create a new builder. You must pass the specification, full path to the
+    # source directory and an optional output directory which defaults to
+    # base_dir + '/build'
+    def initialize(specification, base_dir, build_dir)
+      @spec = specification
+      @base_dir = base_dir
+      @build_dir = build_dir
+    end
+
+    ##
+    # Write a signed zip file to out_path for upload to the Web Store
+    def write_zip(out_path)
+      CrxMake.zip(
+        :ex_dir => @build_dir,
+        :pkey   => full_key_path,
+        :zip_output => out_path,
+        :verbose => false
+      )
+    end
+
+    ##
+    # Write a signed crx file to out_path for self hosting
+    def write_crx(out_path)
+      CrxMake.make(
+        :ex_dir => @build_dir,
+        :pkey   => full_key_path,
+        :crx_output => out_path,
+        :verbose => false
+      )
+    end
+
+    ##
+    # Do we have an existing key file?
+    def private_key_exists?
+      full_key_path.exist?
+    end
+
+    ##
+    # Return the absolute path to the private key
+    def full_key_path
+      Pathname.new(File.expand_path(spec.key_path, @base_dir))
+    end
+
+    ##
+    # Generate a key with OpenSSL and write it to the key path
+    def write_new_key
+      File.open(full_key_path, 'w') do |f|
+        f.write OpenSSL::PKey::RSA.generate(1024).export()
+      end
+    end
+  end
+end

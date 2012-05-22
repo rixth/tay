@@ -110,6 +110,46 @@ module Tay
       end
     end
 
+    desc 'package', 'Package the current extension'
+    method_option :tayfile, :type => :string,
+      :banner => 'Use the specified tayfile instead of Tayfile'
+    method_option 'built-directory', :type => :string, :default => 'build',
+      :aliases => '-b', :banner => 'The directory containing the built extension'
+    method_option 'type', :type => 'string', :default => 'zip',
+      :aliases => '-t', :banner => 'The file type to build, zip or crx'
+    def package
+      unless %{zip crx} .include?(options['type'])
+        raise InvalidPackageType.new("Invalid package type '#{options['type']}'")
+      end
+
+      spec = get_specification
+      base_dir = File.dirname(tayfile_path)
+      build_dir = File.expand_path(options['built-directory'], base_dir)
+
+      packager = Packager.new(spec, base_dir, build_dir)
+
+      if packager.private_key_exists?
+        shell.say("Using private key at #{Utils.relative_path_to(packager.full_key_path)}", :green)
+      else
+        shell.say("Creating private key at #{Utils.relative_path_to(packager.full_key_path)}", :yellow)
+        packager.write_new_key
+      end
+
+      empty_directory(File.join(base_dir, 'pkg'), :verbose => false)
+      filename = Utils.filesystem_name(spec.name) + '-' + spec.version + '.' + options['type']
+      package_path = Pathname.new(File.join(base_dir, 'pkg', filename))
+      relative_package_path = Utils.relative_path_to(package_path)
+
+      if package_path.exist? && shell.no?("#{relative_package_path} exists, overwrite?")
+        shell.say("Aborting...", :yellow)
+        exit 1
+      end
+
+      package_path.unlink if package_path.exist?
+      packager.send("write_#{options['type']}".to_sym, package_path)
+      shell.say("Wrote #{package_path.size} bytes to #{relative_package_path}", :green)
+    end
+
     protected
 
     def get_specification(path = nil)
