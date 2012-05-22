@@ -2,7 +2,7 @@ Tay::Specification.new do |ext|
   ext.name = '<%= config['name'] %>'
   ext.version = '0.0.1'
 <% if config['browser-action'] %>
-  ext.stylesheets << 'javascripts/browser_action.css'
+  ext.stylesheets << 'stylesheets/browser_action.css'
   ext.javascripts << 'javascripts/browser_action.js'
   ext.browser_action do |ba|
     ba.title = '<%= config['name'] %>'
