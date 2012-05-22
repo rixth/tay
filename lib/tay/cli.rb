@@ -135,19 +135,19 @@ module Tay
         packager.write_new_key
       end
 
-      empty_directory(File.join(base_dir, 'pkg'), :verbose => false)
+      empty_directory(File.join(base_dir, 'tmp'))
+      empty_directory(File.join(base_dir, 'pkg'))
+
+      temp_pkg_path = Pathname.new(File.join(base_dir, 'tmp', 'package'))
+      temp_pkg_path.unlink if temp_pkg_path.exist?
+      packager.send("write_#{options['type']}".to_sym, temp_pkg_path)
+
       filename = Utils.filesystem_name(spec.name) + '-' + spec.version + '.' + options['type']
-      package_path = Pathname.new(File.join(base_dir, 'pkg', filename))
-      relative_package_path = Utils.relative_path_to(package_path)
+      pkg_path = Pathname.new(File.join(base_dir, 'pkg', filename))
 
-      if package_path.exist? && shell.no?("#{relative_package_path} exists, overwrite?")
-        shell.say("Aborting...", :yellow)
-        exit 1
-      end
-
-      package_path.unlink if package_path.exist?
-      packager.send("write_#{options['type']}".to_sym, package_path)
-      shell.say("Wrote #{package_path.size} bytes to #{relative_package_path}", :green)
+      copy_file(temp_pkg_path, pkg_path)
+      shell.say("Wrote #{pkg_path.size} bytes to #{Utils.relative_path_to(pkg_path)}", :green)
+      temp_pkg_path.unlink
     end
 
     protected
