@@ -19,13 +19,13 @@ module Tay
 
       validator = SpecificationValidator.new(spec, build_dir)
       validator.on_message = lambda do |type, message|
-        puts "#{type.upcase}: #{message}"
+        shell.say(type.upcase + ": " + message, type == 'warn' ? :yellow : :red)
       end
 
       validator.validate!
 
       if validator.warnings.empty? && validator.errors.empty?
-        puts "All OK!"
+        shell.say("All OK!", :green)
       end
     end
 
