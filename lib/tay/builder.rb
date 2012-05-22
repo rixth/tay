@@ -118,10 +118,10 @@ module Tay
     # Set up the sprockets environment for munging all the things
     def create_sprockets_environment
       @sprockets = Sprockets::Environment.new
-      @sprockets.append_path(@base_dir + '/')
-      @sprockets.append_path(@base_dir + '/src')
       @sprockets.append_path(@base_dir + '/src/javascripts')
       @sprockets.append_path(@base_dir + '/src/stylesheets')
+      @sprockets.append_path(@base_dir + '/src')
+      @sprockets.append_path(@base_dir + '/')
 
       if defined?(Sprockets::CommonJS)
         @sprockets.register_postprocessor 'application/javascript', Sprockets::CommonJS
