@@ -22,9 +22,7 @@ module Tay
         shell.say(type.upcase + ": " + message, type == 'warn' ? :yellow : :red)
       end
 
-      validator.validate!
-
-      if validator.warnings.empty? && validator.errors.empty?
+      if validator.validate!
         shell.say("All OK!", :green)
       end
     end
