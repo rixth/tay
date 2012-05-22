@@ -9,13 +9,13 @@ module Tay
     include ::Thor::Actions
 
     desc 'validate', 'Validate the current extension'
-    method_option 'tayfile', :type => :string,
+    method_option :tayfile, :type => :string,
       :banner => 'Use the specified tayfile instead of Tayfile'
-    method_option :built_directory, :type => :string, :default => 'build',
+    method_option 'built-directory', :type => :string, :default => 'build',
       :aliases => '-b', :banner => 'The directory containing the built extension'
     def validate
       spec = get_specification
-      build_dir = File.expand_path(options[:built_directory], File.dirname(tayfile_path))
+      build_dir = File.expand_path(options['built-directory'], File.dirname(tayfile_path))
 
       validator = SpecificationValidator.new(spec, build_dir)
       validator.on_message = lambda do |type, message|
@@ -28,13 +28,13 @@ module Tay
     end
 
     desc 'build', 'Build the current extension'
-    method_option :output_dir, :type => :string, :default => 'build',
+    method_option 'output-dir', :type => :string, :default => 'build',
       :aliases => '-o', :banner => 'The directory to build in'
-    method_option 'tayfile', :type => :string,
+    method_option :tayfile, :type => :string,
       :banner => 'Use the specified tayfile instead of Tayfile'
     def build
       spec = get_specification
-      builder = Builder.new(spec, File.dirname(tayfile_path), File.expand_path(options[:output_dir]))
+      builder = Builder.new(spec, File.dirname(tayfile_path), File.expand_path(options['output-dir']))
       builder.build!
     end
 
