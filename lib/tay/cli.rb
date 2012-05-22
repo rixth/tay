@@ -50,11 +50,11 @@ module Tay
 
       validator = SpecificationValidator.new(spec, build_dir)
       validator.on_message = lambda do |type, message|
-        shell.say(type.upcase + ": " + message, type == 'warn' ? :yellow : :red)
+        say(type.upcase + ": " + message, type == 'warn' ? :yellow : :red)
       end
 
       if validator.validate!
-        shell.say("All OK!", :green)
+        say("All OK!", :green)
       end
     end
 
@@ -91,7 +91,7 @@ module Tay
             end
           end
         rescue LoadError
-          shell.say('ERROR: please add the uglifier gem to your Gemfile to minfy javascripts', :red)
+          say('ERROR: please add the uglifier gem to your Gemfile to minfy javascripts', :red)
         end
       end
 
@@ -105,7 +105,7 @@ module Tay
             end
           end
         rescue LoadError
-          shell.say('ERROR: please add the yui-compressor gem to your Gemfile to minfy css files', :red)
+          say('ERROR: please add the yui-compressor gem to your Gemfile to minfy css files', :red)
         end
       end
     end
@@ -129,9 +129,9 @@ module Tay
       packager = Packager.new(spec, base_dir, build_dir)
 
       if packager.private_key_exists?
-        shell.say("Using private key at #{Utils.relative_path_to(packager.full_key_path)}", :green)
+        say("Using private key at #{Utils.relative_path_to(packager.full_key_path)}", :green)
       else
-        shell.say("Creating private key at #{Utils.relative_path_to(packager.full_key_path)}", :yellow)
+        say("Creating private key at #{Utils.relative_path_to(packager.full_key_path)}", :yellow)
         packager.write_new_key
       end
 
@@ -146,7 +146,7 @@ module Tay
       pkg_path = Pathname.new(File.join(base_dir, 'pkg', filename))
 
       copy_file(temp_pkg_path, pkg_path)
-      shell.say("Wrote #{pkg_path.size} bytes to #{Utils.relative_path_to(pkg_path)}", :green)
+      say("Wrote #{pkg_path.size} bytes to #{Utils.relative_path_to(pkg_path)}", :green)
       temp_pkg_path.unlink
     end
 
