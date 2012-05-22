@@ -49,8 +49,7 @@ module Tay
       validate_icons
       validate_description
 
-      check_for_packaged_app_collisions
-      check_for_background_collisions
+      check_for_browser_ui_collisions
 
       check_file_presence if @out
 
@@ -128,10 +127,14 @@ module Tay
       fatal("Description too long") if spec.description && spec.description.length > 132
     end
 
-    def check_for_packaged_app_collisions
-      if spec.packaged_app
-        fatal("You cannot use packaged apps and page actions") if spec.page_action
-        fatal("You cannot use packaged apps and browser actions") if spec.browser_action
+    def check_for_browser_ui_collisions
+      count = 0
+      count += 1 if spec.packaged_app
+      count += 1 if spec.page_action
+      count += 1 if spec.browser_action
+
+      if count > 1
+        fatal('Only one of browser_action, page_action, and packaged app can be specified')
       end
     end
 
