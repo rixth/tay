@@ -14,21 +14,35 @@ module Tay
     attr_reader :spec
 
     ##
+    # If true (default) throw an exception on error
+    attr_accessor :violent
+
+    ##
+    # A proc object that will be called on each message with the type and msg
+    attr_accessor :on_message
+
+    attr_reader :warnings
+    attr_reader :errors
+
+    ##
     # Convenience method to validate a specification. Creates a validator and
-    # runs it.
+    # runs it. Will throw an exception if invalid.
     def self.validate(specification, output_directory = nil)
       validator = SpecificationValidator.new(specification, output_directory)
+      validator.violent = true
       validator.validate!
     end
 
     def initialize(specification, output_directory = nil)
       @spec = specification
       @out = output_directory
-      @logger = Logger.new($stdout)
+      @errors = []
+      @warnings = []
     end
 
     ##
-    # Facade method to call the private validation methods
+    # Facade method to call the private validation methods. Will return true if
+    # there were no warnings or errors
     def validate!
       validate_name
       validate_version
@@ -39,6 +53,8 @@ module Tay
       check_for_background_collisions
 
       check_file_presence if @out
+
+      @warnings.empty? && @errors.empty?
     end
 
     protected
@@ -128,12 +144,18 @@ module Tay
     private
 
     def fatal(msg)
-      @logger.fatal msg
-      raise Tay::InvalidSpecification.new
+      @errors << msg
+      unless on_message.nil?
+        on_message.call('fatal', msg)
+      end
+      raise Tay::InvalidSpecification.new if violent
     end
 
     def warn(msg)
-      @logger.warn msg
+      @warnings << msg
+      unless on_message.nil?
+        on_message.call('warn', msg)
+      end
     end
 
     def fail_if_not_exist(what, path)
