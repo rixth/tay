@@ -6,7 +6,7 @@ Bundler.require
 
 begin
   require 'tay/cli'
-  Tay::CLI.start
+  Tay::CLI::Root.start
 rescue Interrupt => e
   puts "\nQuitting..."
   exit 1
