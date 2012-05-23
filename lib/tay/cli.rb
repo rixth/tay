@@ -10,6 +10,9 @@ module Tay
       include ::Thor::Actions
       include ::Tay::CLI::Helpers
 
+      require 'tay/cli/generate'
+      register(Tay::CLI::Generate, 'generate', 'generate', 'Generate a feature')
+
       require 'tay/cli/new'
       require 'tay/cli/build'
       require 'tay/cli/generate'
