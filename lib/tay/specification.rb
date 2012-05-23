@@ -251,5 +251,11 @@ module Tay
     def key_path
       @key_path || Utils.filesystem_name(name) + '.pem'
     end
+
+    ##
+    # Does the specification have a certain permission?
+    def has_permission?(permission)
+      permissions.include?(permission)
+    end
   end
 end
