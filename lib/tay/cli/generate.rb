@@ -9,6 +9,7 @@ module Tay
       end
 
       require 'tay/cli/generators/page_action'
+      require 'tay/cli/generators/browser_action'
 
       protected
 
