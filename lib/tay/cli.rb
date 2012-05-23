@@ -1,4 +1,3 @@
-require 'bundler/setup'
 require 'thor'
 
 module Tay

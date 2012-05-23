@@ -1,5 +1,3 @@
-require 'pathname'
-
 module Tay
   ##
   # Simple helpers used across various classes

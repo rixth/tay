@@ -1,3 +1,9 @@
+require 'bundler/setup'
+
+require 'fileutils'
+require 'pathname'
+require 'json'
+
 require 'tay/version'
 require 'tay/utils'
 require 'tay/specification'

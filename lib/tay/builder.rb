@@ -1,5 +1,3 @@
-require 'fileutils'
-require 'json'
 require 'tilt'
 require 'sprockets'
 

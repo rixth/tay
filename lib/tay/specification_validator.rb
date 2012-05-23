@@ -1,5 +1,3 @@
-require 'logger'
-
 module Tay
   ##
   # Takes a Tay::Specification and does sanity checks for missing required
