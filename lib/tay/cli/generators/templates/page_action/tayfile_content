@@ -1,7 +1,0 @@
-  ext.permissions << 'tabs'
-  ext.background_scripts << 'javascripts/page_action_controller.js'
-  ext.add_page_action do |pa|
-    pa.title = 'Title'
-    pa.icon = 'assets/page_action_icon.png'
-    # pa.popup = 'html/page_action.html'
-  end

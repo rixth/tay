@@ -1,0 +1,7 @@
+<%= "  ext.permissions << 'tabs'\n" unless spec.has_permission?('tabs') -%>
+  ext.background_scripts << 'javascripts/<%= fs_name %>_controller.js'
+  ext.add_page_action do |pa|
+    pa.title = '<%= options['action-name'] %>'
+    pa.icon = 'assets/<%= fs_name %>_icon.png'
+    # pa.popup = 'html/<%= fs_name %>_popup.html'
+  end
