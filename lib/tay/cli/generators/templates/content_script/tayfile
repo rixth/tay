@@ -1,0 +1,6 @@
+  # Go to http://www.iana.org/domains/example/ to see the effects
+  ext.add_content_script do |cs|
+    cs.include_patterns << 'http://www.iana.org/domains/*'
+<%= "    cs.stylesheets << 'stylesheets/#{fs_name}.css'\n" unless options['no-stylesheet'] -%>
+<%= "    cs.javascripts << 'javascripts/#{fs_name}.js'\n" unless options['no-javascript'] -%>
+  end
