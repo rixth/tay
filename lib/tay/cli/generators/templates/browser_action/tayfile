@@ -1,0 +1,7 @@
+  ext.stylesheets << 'stylesheets/<%= fs_name %>.css'
+  ext.javascripts << 'javascripts/<%= fs_name %>.js'
+  ext.add_browser_action do |ba|
+    ba.title = '<%= options['action-name'] %>'
+    ba.popup = 'html/<%= fs_name %>.html'
+    # ba.icon = 'assets/<%= fs_name %>_icon.png'
+  end

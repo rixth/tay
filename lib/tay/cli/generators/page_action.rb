@@ -2,7 +2,7 @@ module Tay
   module CLI
     class Generate < ::Thor
       desc "page_action", "Generate a page action"
-      method_option 'action-name', :type => :string, :default => 'page_action',
+      method_option 'action-name', :type => :string, :default => 'Page Action',
         :aliases => '-n', :banner => 'The name of the page action'
       def page_action
         raise Tay::InvalidSpecification.new("Page action already specified") if spec.page_action

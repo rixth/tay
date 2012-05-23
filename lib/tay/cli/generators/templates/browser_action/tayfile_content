@@ -1,7 +1,0 @@
-  ext.stylesheets << 'stylesheets/browser_action.css'
-  ext.javascripts << 'javascripts/browser_action.js'
-  ext.add_browser_action do |ba|
-    ba.title = 'Browser Action'
-    ba.popup = 'html/browser_action.html'
-    # ba.icon = 'assets/browser_action_icon.png'
-  end
