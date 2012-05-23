@@ -25,12 +25,6 @@ module Tay
       end
 
       ##
-      # Helper to get path to a template, looking at Thor's source roots
-      # Will raise if not  found
-      def template_path(to)
-      end
-
-      ##
       # Get path to src/assets
       def asset_dir
         src_dir.join('assets')
