@@ -2,7 +2,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'tay'
-Bundler.require
+Bundler.require if File.exists?('Gemfile')
 
 begin
   require 'tay/cli'
