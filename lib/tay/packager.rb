@@ -50,7 +50,7 @@ module Tay
     ##
     # Return the absolute path to the private key
     def full_key_path
-      spec.key_path.expand_path(@base_dir)
+      Pathname.new(spec.key_path).expand_path(@base_dir)
     end
 
     ##
