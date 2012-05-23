@@ -30,6 +30,16 @@ module Tay
       end
 
       ##
+      # Render a template in the context of self and return its contents
+      # Thor does not provide a way to do this.
+      def render_template(path, locals = {})
+        tayfile_template = Tilt::ERBTemplate.new(find_in_source_paths(path), {
+          :trim => '-'
+        })
+        tayfile_template.render(self, locals)
+      end
+
+      ##
       # Get path to src/assets
       def asset_dir
         src_dir.join('assets')
