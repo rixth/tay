@@ -19,6 +19,10 @@ module Tay
       require 'tay/cli/validate'
       require 'tay/cli/minify'
       require 'tay/cli/package'
+
+      def self.source_root
+        File.expand_path('cli/templates', File.dirname(__FILE__))
+      end
     end
   end
 end
