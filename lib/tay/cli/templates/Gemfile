@@ -6,9 +6,9 @@ gem 'tay'
 # coupled with other langauges and tools. Uncomment them gems below
 # then run "bundle install"
 
-# gem 'haml'
+<%= options['use-haml'] ? '' : '# ' %>gem 'haml'
 # gem 'sass'
-# gem 'coffee-script'
+<%= options['use-coffeescript'] ? '' : '# ' %>gem 'coffee-script'
 
 # Allows you to use CommonJS requires in your script files
 # See https://github.com/maccman/sprockets-commonjs

@@ -11,6 +11,10 @@ module Tay
       :banner => "Create a page action"
     method_option 'content-script', :type => :boolean, :default => false,
       :banner => "Create a content script"
+    method_option 'use-coffeescript', :type => :boolean, :default => false,
+      :banner => "Use coffeescript"
+    method_option 'use-haml', :type => :boolean, :default => false,
+      :banner => "Use haml"
     def new(name)
       outdir = Pathname.new(Utils.filesystem_name(name))
       create_directory_structure(outdir)
