@@ -2,17 +2,15 @@ module Tay
   module CLI
     class Root < ::Thor
       desc 'minify', 'Validate the currently built extension'
-      method_option 'built-directory', :type => :string, :default => 'build',
-        :aliases => '-b', :banner => 'The directory containing the built extension'
       method_option :tayfile, :type => :string,
         :banner => 'Use the specified tayfile instead of Tayfile'
+      method_option 'build-directory', :type => :string, :default => 'build',
+        :aliases => '-b', :banner => 'The directory containing the built extension'
       method_option 'skip-js', :type => :boolean, :default => false,
         :banner => "Don't minify *.js files"
       method_option 'skip-css', :type => :boolean, :default => false,
         :banner => "Don't minify *.css files"
       def minify
-        build_dir = Pathname.new(options['built-directory']).expand_path(tayfile_path.dirname)
-
         unless options['skip-js']
           begin
             require 'uglifier'

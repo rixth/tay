@@ -4,6 +4,11 @@ module Tay
       include ::Thor::Actions
       include Tay::CLI::Helpers
 
+      class_option :tayfile, :type => :string,
+        :banner => 'Use the specified tayfile instead of Tayfile'
+      class_option 'build-directory', :type => :string, :default => 'build',
+        :aliases => '-b', :banner => 'The directory containing the built extension'
+
       def self.source_root
         File.expand_path('generators/templates', File.dirname(__FILE__))
       end

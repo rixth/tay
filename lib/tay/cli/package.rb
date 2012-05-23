@@ -4,7 +4,7 @@ module Tay
       desc 'package', 'Package the current extension'
       method_option :tayfile, :type => :string,
         :banner => 'Use the specified tayfile instead of Tayfile'
-      method_option 'built-directory', :type => :string, :default => 'build',
+      method_option 'build-directory', :type => :string, :default => 'build',
         :aliases => '-b', :banner => 'The directory containing the built extension'
       method_option 'type', :type => 'string', :default => 'zip',
         :aliases => '-t', :banner => 'The file type to build, zip or crx'
@@ -12,10 +12,6 @@ module Tay
         unless %{zip crx} .include?(options['type'])
           raise InvalidPackageType.new("Invalid package type '#{options['type']}'")
         end
-
-        spec = get_specification
-        base_dir = tayfile_path.dirname
-        build_dir = base_dir.join(options['built-directory'])
 
         packager = Packager.new(spec, base_dir, build_dir)
 

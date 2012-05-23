@@ -5,6 +5,10 @@ module Tay
 
       protected
 
+      def spec
+        @spec ||= get_specification
+      end
+
       def get_specification(path = nil)
         path = path ? Pathname.new(path) : tayfile_path
 
