@@ -33,7 +33,7 @@ module Tay
 
     def initialize(specification, output_directory = nil)
       @spec = specification
-      @out = output_directory
+      @out = output_directory ? Pathname.new(output_directory) : nil
       @errors = []
       @warnings = []
     end
@@ -160,7 +160,7 @@ module Tay
     end
 
     def fail_if_not_exist(what, path)
-      fatal("#{what} does not exist at '#{path}'") unless !path || File.exist?(@out + '/' + path)
+      fatal("#{what} does not exist at '#{path}'") unless !path || @out.join(path).exist?
     end
   end
 

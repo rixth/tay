@@ -15,8 +15,8 @@ module Tay
     # base_dir + '/build'
     def initialize(specification, base_dir, build_dir)
       @spec = specification
-      @base_dir = base_dir
-      @build_dir = build_dir
+      @base_dir = Pathname.new(base_dir)
+      @build_dir = Pathname.new(build_dir)
     end
 
     ##
@@ -50,7 +50,7 @@ module Tay
     ##
     # Return the absolute path to the private key
     def full_key_path
-      Pathname.new(File.expand_path(spec.key_path, @base_dir))
+      spec.key_path.expand_path(@base_dir)
     end
 
     ##

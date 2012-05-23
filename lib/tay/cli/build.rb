@@ -7,7 +7,7 @@ module Tay
       :banner => 'Use the specified tayfile instead of Tayfile'
     def build
       spec = get_specification
-      builder = Builder.new(spec, File.dirname(tayfile_path), File.expand_path(options['output-dir']))
+      builder = Builder.new(spec, tayfile_path.dirname, Pathname.new(options['output-dir']).expand_path)
       builder.build!
     end
   end

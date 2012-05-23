@@ -15,9 +15,9 @@ module Tay
     protected
 
     def get_specification(path = nil)
-      path ||= tayfile_path
+      path = path ? Pathname.new(path) : tayfile_path
 
-      unless File.exist?(path)
+      unless path.exist?
         if options[:tayfile].nil?
           message = "No Tayfile was found in the current directory"
         else
@@ -30,7 +30,7 @@ module Tay
     end
 
     def tayfile_path
-      File.expand_path(options[:tayfile] || DEFAULT_TAYFILE)
+      Pathname.new(options[:tayfile] || DEFAULT_TAYFILE).expand_path
     end
   end
 end

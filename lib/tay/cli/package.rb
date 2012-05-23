@@ -13,8 +13,8 @@ module Tay
       end
 
       spec = get_specification
-      base_dir = File.dirname(tayfile_path)
-      build_dir = File.expand_path(options['built-directory'], base_dir)
+      base_dir = tayfile_path.dirname
+      build_dir = base_dir.join(options['built-directory'])
 
       packager = Packager.new(spec, base_dir, build_dir)
 
@@ -25,15 +25,15 @@ module Tay
         packager.write_new_key
       end
 
-      empty_directory(File.join(base_dir, 'tmp'))
-      empty_directory(File.join(base_dir, 'pkg'))
+      empty_directory(base_dir.join('tmp'))
+      empty_directory(base_dir.join('pkg'))
 
-      temp_pkg_path = Pathname.new(File.join(base_dir, 'tmp', 'package'))
+      temp_pkg_path = base_dir.join('tmp', 'package')
       temp_pkg_path.unlink if temp_pkg_path.exist?
       packager.send("write_#{options['type']}".to_sym, temp_pkg_path)
 
       filename = Utils.filesystem_name(spec.name) + '-' + spec.version + '.' + options['type']
-      pkg_path = Pathname.new(File.join(base_dir, 'pkg', filename))
+      pkg_path = base_dir.join('pkg', filename)
 
       copy_file(temp_pkg_path, pkg_path)
       say("Wrote #{pkg_path.size} bytes to #{Utils.relative_path_to(pkg_path)}", :green)

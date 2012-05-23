@@ -12,29 +12,29 @@ module Tay
     method_option 'content-script', :type => :boolean, :default => false,
       :banner => "Create a content script"
     def new(name)
-      outdir = Utils.filesystem_name(name)
+      outdir = Pathname.new(Utils.filesystem_name(name))
       create_directory_structure(outdir)
 
-      template('Gemfile', File.join(outdir, 'Gemfile')) unless options['no-gemfile']
-      copy_file('gitignore', File.join(outdir, '.gitignore')) unless options['no-gitignore']
-      template('Tayfile', File.join(outdir, 'Tayfile'), {
+      template('Gemfile', outdir.join('Gemfile')) unless options['no-gemfile']
+      copy_file('gitignore', outdir.join('.gitignore')) unless options['no-gitignore']
+      template('Tayfile', outdir.join('Tayfile'), {
         'name' => name
       }.merge(options))
 
-      directory('browser_action', File.join(outdir, 'src')) if options['browser-action']
-      directory('page_action', File.join(outdir, 'src')) if options['page-action']
-      directory('content_script', File.join(outdir, 'src')) if options['content-script']
+      directory('browser_action', outdir.join('src')) if options['browser-action']
+      directory('page_action', outdir.join('src')) if options['page-action']
+      directory('content_script', outdir.join('src')) if options['content-script']
     end
 
     protected
 
     def create_directory_structure(outdir)
       empty_directory(outdir)
-      empty_directory(File.join(outdir, 'src'))
-      empty_directory(File.join(outdir, 'src/assets'))
-      empty_directory(File.join(outdir, 'src/html'))
-      empty_directory(File.join(outdir, 'src/javascripts'))
-      empty_directory(File.join(outdir, 'src/stylesheets'))
+      empty_directory(outdir.join('src'))
+      empty_directory(outdir.join('src/assets'))
+      empty_directory(outdir.join('src/html'))
+      empty_directory(outdir.join('src/javascripts'))
+      empty_directory(outdir.join('src/stylesheets'))
     end
   end
 end

@@ -10,12 +10,12 @@ module Tay
     method_option 'skip-css', :type => :boolean, :default => false,
       :banner => "Don't minify *.css files"
     def minify
-      build_dir = File.expand_path(options['built-directory'], File.dirname(tayfile_path))
+      build_dir = Pathname.new(options['built-directory']).expand_path(tayfile_path.dirname)
 
       unless options['skip-js']
         begin
           require 'uglifier'
-          Dir[File.join(build_dir, '**/*.js')].each do |path|
+          Dir[build_dir.join('**/*.js')].each do |path|
             content = File.read(path)
             File.open(path, 'w') do |f|
               f.write Uglifier.compile(content)
@@ -29,7 +29,7 @@ module Tay
       unless options['skip-css']
         begin
           require 'yui/compressor'
-          Dir[File.join(build_dir, '**/*.css')].each do |path|
+          Dir[build_dir.join('**/*.css')].each do |path|
             content = File.read(path)
             File.open(path, 'w') do |f|
               f.write YUI::CssCompressor.new.compress(content)

@@ -20,8 +20,8 @@ module Tay
     # base_dir + '/build'
     def initialize(specification, base_dir, output_dir = nil)
       @spec = specification
-      @base_dir = base_dir
-      @output_dir = output_dir || (base_dir + "/build")
+      @base_dir = Pathname.new(base_dir)
+      @output_dir = output_dir ? Pathname.new(output_dir) : @base_dir.join('build')
       create_sprockets_environment
     end
 
@@ -45,10 +45,7 @@ module Tay
     # If we know the type buy are missing the gem, raise an exception.
     def get_compiled_file_content(path)
       begin
-        Tilt.new(path).render
-      # rescue LoadError
-      #   file = $!.message.scan(/cannot load such file -- (.*)/)
-      #   raise GemNotInstalled.new("Could not load the gem to compile #{file}, is it installed?")
+        Tilt.new(path.to_s).render
       rescue RuntimeError
         File.read(path)
       end
@@ -64,13 +61,14 @@ module Tay
     # Copy all the files from a directory to the output, compiling
     # them if they are familiar to us. Does not do any sprocketing.
     def simple_compile_directory(directory)
-      files = Dir[@base_dir + "/src/#{directory}/**/*"].map
-      files.each do |path|
-        file_out_path = src_path_to_out_path(path)
-        content = get_compiled_file_content(path)
+      Dir[@base_dir.join('src', directory, '**/*')].each do |path|
+        file_in_path = Pathname.new(path)
+        file_out_path = asset_output_filename(src_path_to_out_path(path), Tilt.mappings.keys)
 
-        FileUtils.mkdir_p(File.dirname(file_out_path))
-        File.open(asset_output_filename(file_out_path, Tilt.mappings.keys), 'w') do |f|
+        content = get_compiled_file_content(file_in_path)
+
+        FileUtils.mkdir_p(file_out_path.dirname)
+        File.open(file_out_path, 'w') do |f|
           f.write content
         end
       end
@@ -80,21 +78,24 @@ module Tay
     # Process all the files in the directory through sprockets before writing
     # them to the output directory
     def compile_files(files)
-      files.each do |path|
-        path = @base_dir + '/src/' + path
-        file_out_path = src_path_to_out_path(path)
+      files.each do |base_path|
+        # We do this second glob in case the path provided in the tayfile
+        # references a compiled version
+        Dir[@base_dir.join('src', base_path + '*')].each do |path|
+          path = Pathname.new(path).relative_path_from(@base_dir.join('src'))
+          file_in_path = @base_dir.join('src', path)
+          file_out_path = asset_output_filename(@output_dir.join(path), @sprockets.engines.keys)
 
-        if @sprockets.extensions.include?(File.extname(path))
-          logical_path = path.sub(/\A#{@base_dir}\//, '')
-          content = @sprockets[logical_path].to_s
-        else
-          content = File.read(path)
-        end
+          if @sprockets.extensions.include?(path.extname)
+            content = @sprockets[file_in_path].to_s
+          else
+            content = File.read(file_in_path)
+          end
 
-        FileUtils.mkdir_p(File.dirname(file_out_path))
-        output_filename = asset_output_filename(file_out_path, @sprockets.engines.keys)
-        File.open(output_filename, 'w') do |f|
-          f.write content
+          FileUtils.mkdir_p(file_out_path.dirname)
+          File.open(file_out_path, 'w') do |f|
+            f.write content
+          end
         end
       end
     end
@@ -104,7 +105,7 @@ module Tay
     def write_manifest
       generator = ManifestGenerator.new(spec)
 
-      File.open(@output_dir + '/manifest.json', 'w') do |f|
+      File.open(@output_dir.join('manifest.json'), 'w') do |f|
         f.write JSON.pretty_generate(generator.spec_as_json)
       end
     end
@@ -113,10 +114,10 @@ module Tay
     # Set up the sprockets environment for munging all the things
     def create_sprockets_environment
       @sprockets = Sprockets::Environment.new
-      @sprockets.append_path(@base_dir + '/src/javascripts')
-      @sprockets.append_path(@base_dir + '/src/stylesheets')
-      @sprockets.append_path(@base_dir + '/src')
-      @sprockets.append_path(@base_dir + '/')
+      @sprockets.append_path(@base_dir.join('src/javascripts').to_s)
+      @sprockets.append_path(@base_dir.join('src/stylesheets').to_s)
+      @sprockets.append_path(@base_dir.join('src').to_s)
+      @sprockets.append_path(@base_dir.to_s)
     end
 
     ##
@@ -129,7 +130,7 @@ module Tay
     # Helper function that converts a base_dir/src/XYZ path to the equivalent
     # path in the output directory
     def src_path_to_out_path(path)
-      @output_dir + path.sub(/\A#{@base_dir}\/src/, '')
+      @output_dir.join(path.to_s.sub(/\A#{@base_dir.to_s}\/src\//, ''))
     end
 
     ##
@@ -140,16 +141,18 @@ module Tay
     # * "foobar.module.js.coffee" => "foobar.module.js"
     # * "index.html.haml" => "index.html"
     # * "style.scss" => "style.scss"
-    def asset_output_filename(filename, processed_extensions)
-      return filename if filename.split('.').length == 2
+    def asset_output_filename(path, processed_extensions)
+      path = Pathname.new(path) if path.is_a?(String)
 
-      extension = File.extname(filename)
+      return path if path.basename.to_s.split('.').length == 2
+
+      extension = path.extname
       processed_extensions.map! { |ext| (ext[0] != '.' ? '.' : '') + ext }
 
       if processed_extensions.include?(extension)
-        asset_output_filename(filename.sub(/#{extension}\Z/, ''), processed_extensions)
+        asset_output_filename(path.to_s.sub(/#{extension}\Z/, ''), processed_extensions)
       else
-        filename
+        path
       end
     end
   end

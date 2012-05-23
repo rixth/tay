@@ -7,7 +7,7 @@ module Tay
       :aliases => '-b', :banner => 'The directory containing the built extension'
     def validate
       spec = get_specification
-      build_dir = File.expand_path(options['built-directory'], File.dirname(tayfile_path))
+      build_dir = Pathname.new(options['built-directory']).expand_path(tayfile_path.dirname)
 
       validator = SpecificationValidator.new(spec, build_dir)
       validator.on_message = lambda do |type, message|
