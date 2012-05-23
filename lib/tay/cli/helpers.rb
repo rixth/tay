@@ -24,13 +24,23 @@ module Tay
         Pathname.new(options[:tayfile] || DEFAULT_TAYFILE).expand_path
       end
 
-      def inject_tayfile_content(new_content)
-        tayfile_contents = File.read(tayfile_path)
-        tayfile_contents.strip!
-        tayfile_contents.sub!(/end\Z/, "\n" + new_content + "\nend")
-        File.open(tayfile_path, 'w') do |f|
-          f.write(tayfile_contents)
-        end
+      ##
+      # Return the base directory for this extension
+      def base_dir
+        tayfile_path.dirname
+      end
+
+      ##
+      # Return the src directory for this extension
+      def src_dir
+        base_dir.join('src')
+      end
+
+      ##
+      # Return the build directory for this extension, respecting any command
+      # line option
+      def build_dir
+        base_dir.join(options['build-directory'] || 'build')
       end
     end
   end
