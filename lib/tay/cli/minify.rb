@@ -2,7 +2,7 @@ module Tay
   module CLI
     class Root < ::Thor
       desc 'minify', 'Validate the currently built extension'
-      method_option :tayfile, :type => :string,
+      method_option 'tayfile', :type => :string,
         :banner => 'Use the specified tayfile instead of Tayfile'
       method_option 'build-directory', :type => :string, :default => 'build',
         :aliases => '-b', :banner => 'The directory containing the built extension'
