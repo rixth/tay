@@ -8,7 +8,7 @@ Tay is designed to help you swiftly write Google Chrome extensions using your fa
 
 ## Usage
 
-Tay helps you create, bootstrap, develop and publish your Chrome extentions. It all works through the `tay` command. 
+Tay helps create, bootstrap, develop and publish Chrome extentions. It all works through the `tay` command.
 
 ### Creating
 
@@ -26,11 +26,15 @@ To build your extension, run `tay build`. Your files will all be compiled and wr
 
 If you run `tay watch` in the top level directory, tay will automatically build whenever a change is detected in the `src` directory *(you still need to go and reload the unpacked extension in Chrome)*.
 
+To use `tay watch` you'll need to add the gems `guard` and `[guard-tay](http://github.com/rixth/guard-tay` to your Gemfile and run `bundle install`
+
 ### Packaging
 
 When it comes time to publish your extension, Tay can create both .zip files (default, for submission to the Chrome Web Store) and .crx files (for self-hosting) via the `tay package [zip or crx]` command.
 
-There are [certain requirements](http://code.google.com/chrome/extensions/packaging.html) with regards to private keys to allow updates to your extension without changing its ID. Tay will generate a key.pem for you and place it in the extension root. It's up to you whether this gets checked in to version control (not recommended for public GitHub projects). If a key.pem is already present when the packager is run, it will be used.
+There are [certain requirements](http://code.google.com/chrome/extensions/packaging.html) with regards to private keys to allow updates to your extension without changing its ID. Tay will generate a key and place it in the project root. It's up to you whether this gets checked in to version control (not recommended for public GitHub projects). If a key is already present when the packager is run, it will be used.
+
+The filename of the key can be specified using by setting `key_path` in the Tayfile.
 
 ## Contributing
 
