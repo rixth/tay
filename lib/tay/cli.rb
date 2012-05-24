@@ -15,6 +15,7 @@ module Tay
 
       require 'tay/cli/new'
       require 'tay/cli/build'
+      require 'tay/cli/watch'
       require 'tay/cli/generate'
       require 'tay/cli/validate'
       require 'tay/cli/minify'
