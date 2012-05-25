@@ -15,10 +15,10 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Tay::VERSION
 
-  gem.add_dependency 'thor'
-  gem.add_dependency 'tilt'
-  gem.add_dependency 'sprockets'
-  gem.add_dependency 'crxmake'
+  gem.add_dependency 'thor', '>= 0.15.2'
+  gem.add_dependency 'tilt', '>= 1.3.3'
+  gem.add_dependency 'sprockets', '>= 2.4.3'
+  gem.add_dependency 'crxmake', '>= 2.0.7'
 
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'sdoc'
