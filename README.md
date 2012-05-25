@@ -26,7 +26,7 @@ To build your extension, run `tay build`. Your files will all be compiled and wr
 
 If you run `tay watch` in the top level directory, tay will automatically build whenever a change is detected in the `src` directory *(you still need to go and reload the unpacked extension in Chrome)*.
 
-To use `tay watch` you'll need to add the gems `guard` and `[guard-tay](http://github.com/rixth/guard-tay` to your Gemfile and run `bundle install`
+To use `tay watch` you'll need to add the `[guard-tay](http://github.com/rixth/guard-tay` gem to your Gemfile and run `bundle install`. If you want to customize the directories that are watched for changes, you can generate a [Guardfile](http://github.com/guard/guard) by running `guard init tay`.
 
 ### Packaging
 
