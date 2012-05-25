@@ -15,6 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Tay::VERSION
 
+  gem.add_dependency 'bundler', '>= 1.1.3'
   gem.add_dependency 'thor', '>= 0.15.2'
   gem.add_dependency 'tilt', '>= 1.3.3'
   gem.add_dependency 'sprockets', '>= 2.4.3'
