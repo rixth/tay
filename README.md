@@ -2,6 +2,16 @@
 
 Tay is designed to help you swiftly write Google Chrome extensions using your favourite languages and tools.
 
+## Quickstart
+
+    $ gem install tay
+    $ tay new my_extension
+    $ cd my_extension
+    $ tay generate browser_action
+    $ tay build
+
+Now go and load your extension in Chrome and look in the top right for the puzzle piece!
+
 ## Installation
 
     $ gem install tay
