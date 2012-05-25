@@ -18,9 +18,9 @@ module Tay
       method_option 'script-name', :type => :string, :default => 'content_script',
         :aliases => '-n', :banner => 'The name of the content script'
       method_option 'no-javascript', :type => :boolean, :default => false,
-        :banner => "Don\t create a javascript file"
+        :banner => "Don\'t create a javascript file"
       method_option 'no-stylesheet', :type => :boolean, :default => false,
-        :banner => "Don\t create a stylesheet"
+        :banner => "Don\'t create a stylesheet"
       def content_script
         fs_name = Utils.filesystem_name(options['script-name'])
 

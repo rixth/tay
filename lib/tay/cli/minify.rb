@@ -1,7 +1,7 @@
 module Tay
   module CLI
     class Root < ::Thor
-      desc 'minify', 'Validate the currently built extension'
+      desc 'minify', 'Minify the CSS and JS of the currently built extension'
       method_option 'tayfile', :type => :string,
         :banner => 'Use the specified tayfile instead of Tayfile'
       method_option 'build-directory', :type => :string, :default => 'build',

@@ -3,9 +3,9 @@ module Tay
     class Root < ::Thor
       desc 'new NAME', 'Create a new extension'
       method_option 'no-gitignore', :type => :boolean, :default => false,
-        :banner => "Don\t create a .gitignore file"
+        :banner => "Don\'t create a .gitignore file"
       method_option 'no-gemfile', :type => :boolean, :default => false,
-        :banner => "Don\t create a Gemfile file"
+        :banner => "Don\'t create a Gemfile file"
       method_option 'use-coffeescript', :type => :boolean, :default => false,
         :banner => "Use coffeescript"
       method_option 'use-haml', :type => :boolean, :default => false,
