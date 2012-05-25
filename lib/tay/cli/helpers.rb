@@ -5,7 +5,8 @@ module Tay
 
       protected
 
-      def spec
+      def spec(bust_cache = false)
+        @spec = nil if bust_cache
         @spec ||= get_specification
       end
 
