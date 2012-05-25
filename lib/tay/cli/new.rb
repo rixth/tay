@@ -30,6 +30,7 @@ module Tay
         empty_directory(outdir.join('src/html'))
         empty_directory(outdir.join('src/javascripts'))
         empty_directory(outdir.join('src/stylesheets'))
+        empty_directory(outdir.join('src/templates'))
       end
     end
   end

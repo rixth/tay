@@ -14,6 +14,8 @@ Tay helps create, bootstrap, develop and publish Chrome extentions. It all works
 
 To start work on a new extension, run `tay new [name]`. This will create a new directory, `[name]`, containing a predefined directory structure and files.
 
+Take particular note of the Gemfile, it contains several commented out gems which can unlock extra abilities for Tay. Just be sure to run `bundle install` after changes there.
+
     Usage:
       tay new NAME
 
@@ -30,6 +32,8 @@ To start work on a new extension, run `tay new [name]`. This will create a new d
 Tay helps you use languages and techniques like CoffeeScript, CommonJS, SCSS and HAML. As mentioned above, tay generates a basic extension for you, from that point you can use generators to create various code skeletons.
 
 The heart any tay project is the `Tayfile`. It defines metadata  about your project and is also used to generate the `manifest.json` that Chrome requires. Some of the basic values will be pre-populated for you. For a full rundown of the Tayfile format, see the docs.
+
+If you install one of the JavaScript templating gems that Sprockets supports, you can require them like any other file and they'll be included in the `window.JST` object.
 
 #### Generators
 
@@ -129,4 +133,3 @@ The filename of the key can be specified using by setting `key_path` in the Tayf
 * Generators that can also make haml/coffeescript
 * Localization of extensions
 * Generator for extension option pages
-* JST support

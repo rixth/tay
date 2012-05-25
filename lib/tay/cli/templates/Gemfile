@@ -13,6 +13,12 @@ gem 'tay'
 # gem 'sass'
 <%= options['use-coffeescript'] ? '' : '# ' %>gem 'coffee-script'
 
+# Enable the usage .jst.mustache templates via Sprockets
+# gem 'mustache-trimmer', :git => 'git://github.com/josh/mustache-trimmer.git'
+
+# Enable the usage .jst.eco templates via Sprockets
+# gem 'eco'
+
 # Allows you to use CommonJS requires in your script files
 # See https://github.com/maccman/sprockets-commonjs
 # gem 'sprockets-commonjs', '0.0.5.pre', :require => 'sprockets/commonjs'

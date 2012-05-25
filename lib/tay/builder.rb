@@ -37,6 +37,17 @@ module Tay
       write_manifest
     end
 
+    ##
+    # This is sub-optimal but the mustache/js gem does not require its tilt
+    # template automatically.
+    def self.try_to_load_mustache_trimmer
+      begin
+        require 'tilt/mustache_js_template'
+        Sprockets.register_engine '.mustache', Tilt::MustacheJsTemplate
+      rescue LoadError
+      end
+    end
+
     protected
 
     ##
@@ -115,6 +126,7 @@ module Tay
     def create_sprockets_environment
       @sprockets = Sprockets::Environment.new
       @sprockets.append_path(@base_dir.join('src/javascripts').to_s)
+      @sprockets.append_path(@base_dir.join('src/templates').to_s)
       @sprockets.append_path(@base_dir.join('src/stylesheets').to_s)
       @sprockets.append_path(@base_dir.join('src').to_s)
       @sprockets.append_path(@base_dir.to_s)
@@ -156,4 +168,6 @@ module Tay
       end
     end
   end
+
+  Builder.try_to_load_mustache_trimmer
 end
