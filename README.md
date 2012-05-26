@@ -140,6 +140,5 @@ The filename of the key can be specified using by setting `key_path` in the Tayf
 
 ## TODO
 
-* Generators that can also make haml/coffeescript
 * Localization of extensions
 * Generator for extension option pages
