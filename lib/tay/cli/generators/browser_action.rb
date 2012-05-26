@@ -12,7 +12,10 @@ module Tay
         fs_name = Utils.filesystem_name(options['action-name'])
         copy_file('browser_action/action.js', javascript_dir.join(fs_name+ '.js'))
         copy_file('browser_action/action.css', stylesheet_dir.join(fs_name+ '.css'))
-        create_file(html_dir.join(fs_name+ '.html'), render_template('browser_action/action.html', :fs_name => fs_name))
+
+        html_ext = using_haml? ? '.html.haml' : '.html'
+        create_file(html_dir.join(fs_name + html_ext), render_template('browser_action/action' + html_ext, :fs_name => fs_name))
+
         inject_tayfile_content(render_template('browser_action/tayfile', :fs_name => fs_name))
       end
     end

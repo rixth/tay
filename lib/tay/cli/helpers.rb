@@ -47,6 +47,18 @@ module Tay
       def build_dir
         base_dir.join(options['build-directory'] || 'build')
       end
+
+      ##
+      # Detect if the user has coffee-script in their Gemfile
+      def using_coffeescript?
+        Gem.loaded_specs.keys.include?('coffee-script')
+      end
+
+      ##
+      # Detect if the user has haml in their Gemfile
+      def using_haml?
+        Gem.loaded_specs.keys.include?('haml')
+      end
     end
   end
 end

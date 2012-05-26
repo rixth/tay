@@ -40,6 +40,26 @@ module Tay
       end
 
       ##
+      # Automatically use the coffeescript/haml templates when copying a file
+      # if the user has the gems in their gemfile
+      def copy_file(from, to)
+        from = from.to_s
+        to = to.to_s
+
+        if from[/\.js$/] && using_coffeescript?
+          from = from + '.coffee'
+          to = to + '.coffee'
+        end
+
+        if from[/\.html$/] && using_haml?
+          from = from + '.haml'
+          to = to + '.haml'
+        end
+
+        super(from, to)
+      end
+
+      ##
       # Get path to src/assets
       def asset_dir
         src_dir.join('assets')
