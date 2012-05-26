@@ -33,6 +33,18 @@ module Tay
       # Render a template in the context of self and return its contents
       # Thor does not provide a way to do this.
       def render_template(path, locals = {})
+        path = path.to_s
+
+        # Try to use a haml file path if available
+        if path[/\.html$/] && using_haml?
+          begin
+            if find_in_source_paths(path + '.haml')
+              path = path + '.haml'
+            end
+          rescue Exception
+          end
+        end
+
         tayfile_template = Tilt::ERBTemplate.new(find_in_source_paths(path), {
           :trim => '-'
         })
@@ -57,6 +69,17 @@ module Tay
         end
 
         super(from, to)
+      end
+
+      ##
+      # Create a file, tacking on .haml if we're using it
+      def create_file(path, content, *args)
+        path = path.to_s
+        if path[/\.html$/] && using_haml?
+          path = path + '.haml'
+        end
+
+        super
       end
 
       ##
