@@ -16,6 +16,8 @@ Now go and load your extension in Chrome and look in the top right for the puzzl
 
     $ gem install tay
 
+If installing the gem from source, be sure to run `rake build_generators` first!
+
 ## Usage
 
 Tay helps create, bootstrap, develop and publish Chrome extentions. It all works through the `tay` command. Running `tay` alone will show you a list of commands.
