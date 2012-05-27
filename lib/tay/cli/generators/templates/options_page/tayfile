@@ -1,0 +1,5 @@
+  ext.javascripts << 'javascripts/options.js'
+  ext.javascripts << 'javascripts/options_page.js'
+  ext.stylesheets << 'stylesheets/options_page.css'
+  ext.options_page = 'html/options_page.html'
+  ext.background_scripts << 'javascripts/options_server.js'

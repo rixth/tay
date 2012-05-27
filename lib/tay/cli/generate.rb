@@ -16,6 +16,7 @@ module Tay
       require 'tay/cli/generators/page_action'
       require 'tay/cli/generators/browser_action'
       require 'tay/cli/generators/content_script'
+      require 'tay/cli/generators/options_page'
 
       protected
 

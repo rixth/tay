@@ -1,0 +1,38 @@
+!!!5
+%html
+  %head
+    %title Options
+    %link{rel: "stylesheet", type: "text/css", href: "/stylesheets/options_page.css"}
+  %body
+    .module
+      %h1
+        Options
+      .content
+        %form#options
+          %ul
+            %li
+              %label
+                A boolean option
+                %input{type: "checkbox", name: "boolean_option"}
+            %li
+              %label
+                A text option
+                %input{type: "text", name: "string_option"}
+            %li
+              %label
+                A select option
+                %select{name: "select_option"}
+                  %option{value: "1"} One
+                  %option{value: "2"} Two
+                  %option{value: "3"} Three
+            %li
+              %label
+                Radio option
+                %input{type: "radio", name: "radio_option", value: "a"} A
+                %input{type: "radio", name: "radio_option", value: "b"} B
+                %input{type: "radio", name: "radio_option", value: "c"} C
+
+      .bottom
+        %a#saveSettings Save your settings
+    %script{src: "/javascripts/options.js"}
+    %script{src: "/javascripts/options_page.js"}
