@@ -83,7 +83,7 @@ To build the extension, run `tay build`. Source files will be compiled and writt
 
 If you run `tay watch` in the top level directory, tay will automatically build whenever a change is detected in the `src` directory *(you still need to go and reload the unpacked extension in Chrome)*.
 
-To use `tay watch` you'll need to add the `[guard-tay](http://github.com/rixth/guard-tay` gem to your Gemfile and run `bundle install`. If you want to customize the directories that are watched for changes, you can generate a [Guardfile](http://github.com/guard/guard) by running `guard init tay`.
+To use `tay watch` you'll need to add the [guard-tay](http://github.com/rixth/guard-tay) gem to your Gemfile and run `bundle install`. If you want to customize the directories that are watched for changes, you can generate a [Guardfile](http://github.com/guard/guard) by running `guard init tay`.
 
     Usage:
       tay watch
@@ -97,7 +97,7 @@ To use `tay watch` you'll need to add the `[guard-tay](http://github.com/rixth/g
 
 ### Minifying
 
-If you have the `[uglifier](https://github.com/lautis/uglifier)` and/or `[yui-compressor](https://github.com/sstephenson/ruby-yui-compressor)` gems in your Gemfile, you will be able to minify the JS and CSS in a built extension.
+If you have the [uglifier](https://github.com/lautis/uglifier) and/or [yui-compressor](https://github.com/sstephenson/ruby-yui-compressor) gems in your Gemfile, you will be able to minify the JS and CSS in a built extension.
 
     Usage:
       tay minify
