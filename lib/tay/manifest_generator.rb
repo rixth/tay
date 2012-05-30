@@ -90,7 +90,7 @@ module Tay
         end
       end
 
-      json
+      { :launch => json }
     end
 
     ##
