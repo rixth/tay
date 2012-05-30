@@ -138,6 +138,35 @@ module Tay
     attr_reader :packaged_app
 
     ##
+    # An array of directories that will be copied to the build directory.
+    # Defaults to "img", "assets", and "html", all files are run through
+    # Tilt before being copied
+    #
+    # If just a directory name is passed, it is assumed to be a sub-dir
+    # of src, and will be copied as the directory name, eg:
+    #
+    # spec.source_directories << "extras"
+    #   # copies src/extras to build/extras
+    #
+    # If you provide a path, it is relative to the root directory, and will be
+    # copied to the build directory under this full relative path, eg:
+    #
+    # spec.source_directories << "non_code/fonts"
+    #   # copies non_code/fonts to build/non_code/fonts
+    #
+    # If you need finer control over where files end up, you can also push an
+    # object on to this list detailing the source directory, and the directory
+    # it will be placed in under the build dir. You can optionally specify
+    # whether to run through Tilt or not (default: yes). eg:
+    #
+    # spec.source_directories << {
+    #   :from => "vendor/bootstrap/img",
+    #   :as => "img",
+    #   :use_tilt => false
+    # }  # copies vendor/bootstrap/img/* to build/img
+    attr_accessor :source_directories
+
+    ##
     # The path to the private key used to package this extension. Will default
     # to ./EXTNAME.pem
     attr_accessor :key_path
@@ -153,6 +182,7 @@ module Tay
       @icons = {}
       @stylesheets = []
       @javascripts = []
+      @source_directories = %w{img assets html}
 
       yield self
     end

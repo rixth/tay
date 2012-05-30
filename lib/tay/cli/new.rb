@@ -27,6 +27,7 @@ module Tay
         empty_directory(outdir)
         empty_directory(outdir.join('src'))
         empty_directory(outdir.join('src/assets'))
+        empty_directory(outdir.join('src/img'))
         empty_directory(outdir.join('src/html'))
         empty_directory(outdir.join('src/javascripts'))
         empty_directory(outdir.join('src/stylesheets'))

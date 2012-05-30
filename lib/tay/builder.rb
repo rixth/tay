@@ -30,8 +30,7 @@ module Tay
     # in this class.
     def build!
       create_output_directory
-      simple_compile_directory('html')
-      simple_compile_directory('assets')
+      spec.source_directories.each { |d| simple_compile_directory(d) }
       compile_files(spec.all_javascript_paths)
       compile_files(spec.all_stylesheet_paths)
       write_manifest
@@ -72,11 +71,31 @@ module Tay
     # Copy all the files from a directory to the output, compiling
     # them if they are familiar to us. Does not do any sprocketing.
     def simple_compile_directory(directory)
-      Dir[@base_dir.join('src', directory, '**/*')].each do |path|
-        file_in_path = Pathname.new(path)
-        file_out_path = asset_output_filename(src_path_to_out_path(path), Tilt.mappings.keys)
+      if directory.is_a?(String)
+        # If we just have a single dirname, assume it's under src
+        from_directory = (directory[/\//] ? '' : 'src/') + directory
 
-        content = get_compiled_file_content(file_in_path)
+        directory = {
+          :from => from_directory,
+          :as => directory
+        }
+      end
+
+      directory[:use_tilt] |= true
+
+      Dir[@base_dir.join(directory[:from], '**/*')].each do |path|
+        file_in_path = Pathname.new(path)
+
+        next unless file_in_path.file?
+
+        file_out_path = remap_path_to_build_directory(path, directory)
+
+        if directory[:use_tilt]
+          content = get_compiled_file_content(file_in_path)
+          file_out_path = asset_output_filename(file_out_path, Tilt.mappings.keys)
+        else
+          content = File.read(file_in_path)
+        end
 
         FileUtils.mkdir_p(file_out_path.dirname)
         File.open(file_out_path, 'w') do |f|
@@ -139,10 +158,11 @@ module Tay
     end
 
     ##
-    # Helper function that converts a base_dir/src/XYZ path to the equivalent
-    # path in the output directory
-    def src_path_to_out_path(path)
-      @output_dir.join(path.to_s.sub(/\A#{@base_dir.to_s}\/src\//, ''))
+    # Helper function that converts a source path to an equivalent path in the
+    # output directory
+    def remap_path_to_build_directory(path, directory_info)
+      base_directory = @base_dir.join(directory_info[:from]).to_s
+      @output_dir.join(path.to_s.sub(/\A#{base_directory}\/?/, directory_info[:as] + '/'))
     end
 
     ##
