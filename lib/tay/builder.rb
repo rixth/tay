@@ -55,7 +55,9 @@ module Tay
     # If we know the type buy are missing the gem, raise an exception.
     def get_compiled_file_content(path)
       begin
-        Tilt.new(path.to_s).render
+        Tilt.new(path.to_s).render({}, {
+          :spec => spec
+        })
       rescue RuntimeError
         File.read(path)
       end
