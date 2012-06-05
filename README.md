@@ -51,7 +51,7 @@ If you install one of the JavaScript templating gems that Sprockets supports, yo
 
 Tay ships with a handful of code skeleton generators, documented below. Running `tay generate` will show a list of generators; `tay generate help *generator_name*` will show information specific to that generator.
 
-Currently available generators: page_action, browser_action, content_script.
+Currently available generators: page_action, browser_action, content_script, options_page.
 
 #### Validating
 
