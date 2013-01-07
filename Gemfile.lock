@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tay (0.0.5)
+    tay (0.1.0)
       bundler (~> 1.2.3)
       crxmake (~> 2.0.7)
       sprockets (~> 2.4.3)
