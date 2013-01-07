@@ -33,6 +33,7 @@ module Tay
         pkg_path = base_dir.join('pkg', filename)
 
         copy_file(temp_pkg_path, pkg_path)
+        say("The extension's ID is #{packager.extension_id}")
         say("Wrote #{pkg_path.size} bytes to #{Utils.relative_path_to(pkg_path)}", :green)
         temp_pkg_path.unlink
       end

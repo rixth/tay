@@ -42,6 +42,17 @@ module Tay
     end
 
     ##
+    # Calculate the extension's ID from the key
+    # Core concepts from supercollider.dk
+    def extension_id
+      raise Tay::PrivateKeyNotFound.new unless private_key_exists?
+
+      public_key = OpenSSL::PKey::RSA.new(File.read(full_key_path)).public_key.to_der
+      hash = Digest::SHA256.hexdigest(public_key)[0...32]
+      hash.unpack('C*').map{ |c| c < 97 ? c + 49 : c + 10 }.pack('C*')
+    end
+
+    ##
     # Do we have an existing key file?
     def private_key_exists?
       full_key_path.exist?

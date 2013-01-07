@@ -16,4 +16,5 @@ module Tay
   class InvalidSpecification < Exception; end
   class SpecificationNotFound < Exception; end
   class InvalidPackageType < Exception; end
+  class PrivateKeyNotFound < Exception; end
 end
