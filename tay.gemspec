@@ -9,6 +9,9 @@ Gem::Specification.new do |gem|
   gem.homepage      = "https://github.com/rixth/tay"
 
   gem.files         = `git ls-files`.split($\)
+  gem.files        += Dir['lib/tay/cli/generators/templates/**/*.html']
+  gem.files        += Dir['lib/tay/cli/generators/templates/**/*.js']
+
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "tay"
