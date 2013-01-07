@@ -1,7 +1,7 @@
 module Tay
   module CLI
     class Root < ::Thor
-      desc 'watch', 'Watch the current extension and recompile on file change'
+      desc 'watch', 'Set up auto-compilation'
       method_option :tayfile, :type => :string,
         :banner => 'Use the specified tayfile instead of Tayfile'
       method_option 'build-directory', :type => :string, :default => 'build',
@@ -15,14 +15,11 @@ module Tay
           return
         end
 
-        guardfile_path= "#{::Guard.locate_guard('tay')}/lib/guard/tay/templates/Guardfile"
-        guardfile = File.read(guardfile_path)
+        template_path = "#{::Guard.locate_guard('tay')}/lib/guard/tay/templates/Guardfile"
 
-        # Proxy in our command line options
-        guardfile.sub!(':tay do', ":tay, #{options.to_s} do")
+        copy_file(template_path, File.expand_path('Guardfile', '.'))
 
-        Guard.setup
-        Guard.start(:guardfile_contents => guardfile)
+        say('Auto-compilation is now set up. Run `guard` to start watching for changes.', :green)
       end
     end
   end

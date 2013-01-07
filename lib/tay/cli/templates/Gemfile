@@ -6,7 +6,7 @@ gem 'tay'
 # coupled with other langauges and tools. Uncomment them gems below
 # then run "bundle install"
 
-# Allows you to run "tay watch" to automatically recompile on change
+# Allows you to run "tay watch" to set up automatic recompilation on change
 # gem 'guard-tay'
 
 <%= options['use-haml'] ? '' : '# ' %>gem 'haml'
