@@ -15,15 +15,15 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Tay::VERSION
 
-  gem.add_dependency 'bundler', '>= 1.1.3'
-  gem.add_dependency 'thor', '>= 0.15.2'
-  gem.add_dependency 'tilt', '>= 1.3.3'
-  gem.add_dependency 'sprockets', '>= 2.4.3'
-  gem.add_dependency 'crxmake', '>= 2.0.7'
+  gem.add_dependency 'bundler', '~> 1.2.3'
+  gem.add_dependency 'thor', '~> 0.15.2'
+  gem.add_dependency 'tilt', '~> 1.3.3'
+  gem.add_dependency 'sprockets', '~> 2.4.3'
+  gem.add_dependency 'crxmake', '~> 2.0.7'
 
-  gem.add_development_dependency 'rspec'
-  gem.add_development_dependency 'sdoc'
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'coffee-script'
-  gem.add_development_dependency 'haml'
+  gem.add_development_dependency 'rspec', '~> 2.12'
+  gem.add_development_dependency 'sdoc', '~> 0.3.20'
+  gem.add_development_dependency 'rake', '~> 10.0.3'
+  gem.add_development_dependency 'coffee-script', '~> 2.2.0'
+  gem.add_development_dependency 'haml', '~> 3.1.7'
 end
