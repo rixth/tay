@@ -60,8 +60,7 @@ module Tay
     # Work out which manifest version needed based on the features that have
     # been used
     def calculate_manifest_version
-      return 2 unless spec.web_accessible_resources.empty?
-      1
+      2
     end
 
     ##
